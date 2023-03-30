@@ -16,7 +16,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.henryhiles.qweather.R
-import com.henryhiles.qweather.presentation.viewmodel.WeatherState
+import com.henryhiles.qweather.presentation.screenmodel.WeatherState
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
@@ -26,7 +26,6 @@ fun WeatherCard(state: WeatherState, modifier: Modifier = Modifier) {
         val formattedTime = remember(it) {
             it.time.format(DateTimeFormatter.ofPattern("HH:mm"))
         }
-
         Card(
             shape = RoundedCornerShape(8.dp),
             modifier = modifier.padding(16.dp)

@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.henryhiles.qweather.presentation.viewmodel.WeatherState
+import com.henryhiles.qweather.presentation.screenmodel.WeatherState
 import java.time.LocalDateTime
 
 @Composable

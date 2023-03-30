@@ -1,8 +1,8 @@
 package com.henryhiles.qweather.di
 
 import com.henryhiles.qweather.data.remote.WeatherApi
-import com.henryhiles.qweather.presentation.viewmodel.WeatherViewModel
-import org.koin.androidx.viewmodel.dsl.viewModelOf
+import com.henryhiles.qweather.presentation.screenmodel.WeatherScreenModel
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -36,5 +36,7 @@ val appModule = module {
 //    single {
 //        LocationServices.getFusedLocationProviderClient(get<Application>())
 //    }
-    viewModelOf(::WeatherViewModel)
+
+    factoryOf(::WeatherScreenModel)
+//    factory { WeatherScreenModel(get(), get()) }
 }

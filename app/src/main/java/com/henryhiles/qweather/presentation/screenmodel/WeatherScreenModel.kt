@@ -1,10 +1,10 @@
-package com.henryhiles.qweather.presentation.viewmodel
+package com.henryhiles.qweather.presentation.screenmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
 import com.henryhiles.qweather.domain.location.LocationTracker
 import com.henryhiles.qweather.domain.repository.WeatherRepository
 import com.henryhiles.qweather.domain.util.Resource
@@ -17,15 +17,15 @@ data class WeatherState(
     val error: String? = null
 )
 
-class WeatherViewModel constructor(
+class WeatherScreenModel constructor(
     private val repository: WeatherRepository,
     private val locationTracker: LocationTracker,
-) : ViewModel() {
+) : ScreenModel {
     var state by mutableStateOf(WeatherState())
         private set
 
     fun loadWeatherInfo() {
-        viewModelScope.launch {
+        coroutineScope.launch {
             state = state.copy(isLoading = true, error = null)
             val currentLocation = locationTracker.getCurrentLocation()
             currentLocation?.let { location ->
