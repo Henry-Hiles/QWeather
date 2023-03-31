@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.henryhiles.qweather.R
-import com.henryhiles.qweather.presentation.components.LargeToolbar
+import com.henryhiles.qweather.presentation.components.SmallToolbar
 import com.henryhiles.qweather.presentation.components.settings.SettingsCategory
 import com.henryhiles.qweather.presentation.screen.AppearanceSettingsScreen
 
@@ -39,7 +39,11 @@ object SettingsTab : Tab {
     @Composable
     override fun Content() {
         Scaffold(
-            topBar = { Toolbar() },
+            topBar = {
+                SmallToolbar(
+                    title = stringResource(R.string.tab_settings),
+                )
+            },
         ) {
             Column(
                 modifier = Modifier
@@ -55,12 +59,5 @@ object SettingsTab : Tab {
                 )
             }
         }
-    }
-
-    @Composable
-    private fun Toolbar() {
-        LargeToolbar(
-            title = stringResource(R.string.tab_settings),
-        )
     }
 }

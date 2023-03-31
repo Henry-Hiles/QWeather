@@ -37,10 +37,6 @@ val appModule = module {
     singleOf(::provideWeatherApi)
     singleOf(::PreferenceManager)
     factoryOf(::AppearanceSettingsScreenModel)
-//    single {
-//        LocationServices.getFusedLocationProviderClient(get<Application>())
-//    }
 
     factoryOf(::WeatherScreenModel)
-//    factory { WeatherScreenModel(get(), get()) }
 }

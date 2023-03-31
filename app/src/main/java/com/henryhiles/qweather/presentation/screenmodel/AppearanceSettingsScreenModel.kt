@@ -2,14 +2,15 @@ package com.henryhiles.qweather.presentation.screenmodel
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Resources
 import android.os.Build
+import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.content.edit
 import cafe.adriel.voyager.core.model.ScreenModel
+import com.henryhiles.qweather.R
 import kotlin.reflect.KProperty
 
 abstract class BasePreferenceManager(
@@ -120,9 +121,14 @@ abstract class BasePreferenceManager(
 
 class PreferenceManager(context: Context) :
     BasePreferenceManager(context.getSharedPreferences("prefs", Context.MODE_PRIVATE)) {
-
-    var theme by enumPreference("theme", Resources.Theme.SYSTEM)
+    var theme by enumPreference("theme", Theme.SYSTEM)
     var monet by booleanPreference("monet", Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+}
+
+enum class Theme(@StringRes val label: Int) {
+    SYSTEM(R.string.theme_system),
+    LIGHT(R.string.theme_light),
+    DARK(R.string.theme_dark);
 }
 
 class AppearanceSettingsScreenModel(

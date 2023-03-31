@@ -18,7 +18,7 @@ fun SettingsCategory(
     destination: (() -> Screen)? = null
 ) {
     val screen = destination?.invoke()
-    val nav = LocalNavigator.current
+    val nav = LocalNavigator.current?.parent
 
     Box(
         modifier = Modifier

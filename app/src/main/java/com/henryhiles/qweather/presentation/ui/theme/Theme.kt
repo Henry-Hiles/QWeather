@@ -35,10 +35,11 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun WeatherAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    monet: Boolean,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        monet && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
