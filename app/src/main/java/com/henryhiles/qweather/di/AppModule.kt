@@ -1,6 +1,8 @@
 package com.henryhiles.qweather.di
 
 import com.henryhiles.qweather.data.remote.WeatherApi
+import com.henryhiles.qweather.presentation.screenmodel.AppearanceSettingsScreenModel
+import com.henryhiles.qweather.presentation.screenmodel.PreferenceManager
 import com.henryhiles.qweather.presentation.screenmodel.WeatherScreenModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -33,6 +35,8 @@ val appModule = module {
     }
 
     singleOf(::provideWeatherApi)
+    singleOf(::PreferenceManager)
+    factoryOf(::AppearanceSettingsScreenModel)
 //    single {
 //        LocationServices.getFusedLocationProviderClient(get<Application>())
 //    }

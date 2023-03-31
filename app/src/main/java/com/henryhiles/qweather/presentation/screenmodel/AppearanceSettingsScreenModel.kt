@@ -1,20 +1,130 @@
 package com.henryhiles.qweather.presentation.screenmodel
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.content.res.Resources
 import android.os.Build
-import androidx.annotation.StringRes
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.edit
 import cafe.adriel.voyager.core.model.ScreenModel
-import com.henryhiles.qweather.R
+import kotlin.reflect.KProperty
 
-class AppearanceSettingsScreenModel(context: Context) : ScreenModel {
+abstract class BasePreferenceManager(
+    private val prefs: SharedPreferences
+) {
+    protected fun getString(key: String, defaultValue: String?) =
+        prefs.getString(key, defaultValue)!!
 
-    var theme by enumPreference("theme", Theme.SYSTEM)
+    private fun getBoolean(key: String, defaultValue: Boolean) = prefs.getBoolean(key, defaultValue)
+    private fun getInt(key: String, defaultValue: Int) = prefs.getInt(key, defaultValue)
+    private fun getFloat(key: String, defaultValue: Float) = prefs.getFloat(key, defaultValue)
+    private fun getColor(key: String, defaultValue: Color): Color {
+        val c = prefs.getString(key, null)
+        return if (c == null) defaultValue else Color(c.toULong())
+    }
+
+    protected inline fun <reified E : Enum<E>> getEnum(key: String, defaultValue: E) =
+        enumValueOf<E>(getString(key, defaultValue.name))
+
+    protected fun putString(key: String, value: String?) = prefs.edit { putString(key, value) }
+    private fun putBoolean(key: String, value: Boolean) = prefs.edit { putBoolean(key, value) }
+    private fun putInt(key: String, value: Int) = prefs.edit { putInt(key, value) }
+    private fun putFloat(key: String, value: Float) = prefs.edit { putFloat(key, value) }
+    private fun putColor(key: String, value: Color) =
+        prefs.edit { putString(key, value.value.toString()) }
+
+    protected inline fun <reified E : Enum<E>> putEnum(key: String, value: E) =
+        putString(key, value.name)
+
+    protected class Preference<T>(
+        private val key: String,
+        defaultValue: T,
+        getter: (key: String, defaultValue: T) -> T,
+        private val setter: (key: String, newValue: T) -> Unit
+    ) {
+        @Suppress("RedundantSetter")
+        var value by mutableStateOf(getter(key, defaultValue))
+            private set
+
+        operator fun getValue(thisRef: Any?, property: KProperty<*>) = value
+        operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T) {
+            value = newValue
+            setter(key, newValue)
+        }
+    }
+
+    protected fun stringPreference(
+        key: String,
+        defaultValue: String = ""
+    ) = Preference(
+        key = key,
+        defaultValue = defaultValue,
+        getter = ::getString,
+        setter = ::putString
+    )
+
+    protected fun booleanPreference(
+        key: String,
+        defaultValue: Boolean
+    ) = Preference(
+        key = key,
+        defaultValue = defaultValue,
+        getter = ::getBoolean,
+        setter = ::putBoolean
+    )
+
+    protected fun intPreference(
+        key: String,
+        defaultValue: Int
+    ) = Preference(
+        key = key,
+        defaultValue = defaultValue,
+        getter = ::getInt,
+        setter = ::putInt
+    )
+
+    protected fun floatPreference(
+        key: String,
+        defaultValue: Float
+    ) = Preference(
+        key = key,
+        defaultValue = defaultValue,
+        getter = ::getFloat,
+        setter = ::putFloat
+    )
+
+    protected fun colorPreference(
+        key: String,
+        defaultValue: Color
+    ) = Preference(
+        key = key,
+        defaultValue = defaultValue,
+        getter = ::getColor,
+        setter = ::putColor
+    )
+
+
+    protected inline fun <reified E : Enum<E>> enumPreference(
+        key: String,
+        defaultValue: E
+    ) = Preference(
+        key = key,
+        defaultValue = defaultValue,
+        getter = ::getEnum,
+        setter = ::putEnum
+    )
+}
+
+class PreferenceManager(context: Context) :
+    BasePreferenceManager(context.getSharedPreferences("prefs", Context.MODE_PRIVATE)) {
+
+    var theme by enumPreference("theme", Resources.Theme.SYSTEM)
     var monet by booleanPreference("monet", Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-
 }
 
-enum class Theme(@StringRes val label: Int) {
-    SYSTEM(R.string.theme_system),
-    LIGHT(R.string.theme_light),
-    DARK(R.string.theme_dark);
-}
+class AppearanceSettingsScreenModel(
+    val prefs: PreferenceManager
+) : ScreenModel
