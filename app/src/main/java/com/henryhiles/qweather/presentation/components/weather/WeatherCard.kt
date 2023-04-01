@@ -1,4 +1,4 @@
-package com.henryhiles.qweather.presentation.components
+package com.henryhiles.qweather.presentation.components.weather
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -16,6 +16,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.henryhiles.qweather.R
+import com.henryhiles.qweather.presentation.components.WeatherDataDisplay
 import com.henryhiles.qweather.presentation.screenmodel.WeatherState
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt

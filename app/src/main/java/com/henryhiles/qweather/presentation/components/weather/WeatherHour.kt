@@ -1,4 +1,4 @@
-package com.henryhiles.qweather.presentation.components
+package com.henryhiles.qweather.presentation.components.weather
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

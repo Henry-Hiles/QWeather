@@ -1,7 +1,7 @@
-package com.henryhiles.qweather.data.mappers
+package com.henryhiles.qweather.domain.mappers
 
-import com.henryhiles.qweather.data.remote.WeatherDataDto
-import com.henryhiles.qweather.data.remote.WeatherDto
+import com.henryhiles.qweather.domain.remote.WeatherDataDto
+import com.henryhiles.qweather.domain.remote.WeatherDto
 import com.henryhiles.qweather.domain.weather.WeatherData
 import com.henryhiles.qweather.domain.weather.WeatherInfo
 import com.henryhiles.qweather.domain.weather.WeatherType

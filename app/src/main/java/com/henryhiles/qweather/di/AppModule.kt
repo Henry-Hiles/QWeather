@@ -1,6 +1,6 @@
 package com.henryhiles.qweather.di
 
-import com.henryhiles.qweather.data.remote.WeatherApi
+import com.henryhiles.qweather.domain.remote.WeatherApi
 import com.henryhiles.qweather.presentation.screenmodel.AppearanceSettingsScreenModel
 import com.henryhiles.qweather.presentation.screenmodel.PreferenceManager
 import com.henryhiles.qweather.presentation.screenmodel.WeatherScreenModel

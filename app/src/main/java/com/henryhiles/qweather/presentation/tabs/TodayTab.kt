@@ -20,7 +20,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.henryhiles.qweather.R
-import com.henryhiles.qweather.presentation.components.WeatherCard
+import com.henryhiles.qweather.presentation.components.weather.WeatherCard
 import com.henryhiles.qweather.presentation.components.WeatherForecast
 import com.henryhiles.qweather.presentation.screenmodel.WeatherScreenModel
 

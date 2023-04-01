@@ -1,4 +1,4 @@
-package com.henryhiles.qweather.data.remote
+package com.henryhiles.qweather.domain.remote
 
 import com.squareup.moshi.Json
 

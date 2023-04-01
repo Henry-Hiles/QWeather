@@ -1,9 +1,7 @@
 package com.henryhiles.qweather.di
 
-import com.henryhiles.qweather.data.location.DefaultLocationTracker
 import com.henryhiles.qweather.domain.location.LocationTracker
 import org.koin.core.module.dsl.singleOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 
 //@Module
@@ -16,5 +14,5 @@ import org.koin.dsl.module
 
 
 val locationModule = module {
-    singleOf(::DefaultLocationTracker) bind LocationTracker::class
+    singleOf(::LocationTracker)
 }
