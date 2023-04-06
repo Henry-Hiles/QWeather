@@ -1,9 +1,10 @@
 package com.henryhiles.qweather.di
 
 import com.henryhiles.qweather.domain.remote.WeatherApi
-import com.henryhiles.qweather.presentation.screenmodel.AppearanceSettingsScreenModel
-import com.henryhiles.qweather.presentation.screenmodel.PreferenceManager
-import com.henryhiles.qweather.presentation.screenmodel.WeatherScreenModel
+import com.henryhiles.qweather.presentation.screenmodel.AppearancePreferenceManager
+import com.henryhiles.qweather.presentation.screenmodel.AppearancePreferencesScreenModel
+import com.henryhiles.qweather.presentation.screenmodel.DailyWeatherScreenModel
+import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherScreenModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -35,8 +36,9 @@ val appModule = module {
     }
 
     singleOf(::provideWeatherApi)
-    singleOf(::PreferenceManager)
-    factoryOf(::AppearanceSettingsScreenModel)
+    singleOf(::AppearancePreferenceManager)
 
-    factoryOf(::WeatherScreenModel)
+    factoryOf(::AppearancePreferencesScreenModel)
+    factoryOf(::HourlyWeatherScreenModel)
+    factoryOf(::DailyWeatherScreenModel)
 }

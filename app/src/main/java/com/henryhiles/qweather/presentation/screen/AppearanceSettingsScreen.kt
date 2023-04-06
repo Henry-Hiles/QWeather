@@ -16,7 +16,7 @@ import com.henryhiles.qweather.R
 import com.henryhiles.qweather.presentation.components.LargeToolbar
 import com.henryhiles.qweather.presentation.components.settings.SettingsItemChoice
 import com.henryhiles.qweather.presentation.components.settings.SettingsSwitch
-import com.henryhiles.qweather.presentation.screenmodel.AppearanceSettingsScreenModel
+import com.henryhiles.qweather.presentation.screenmodel.AppearancePreferencesScreenModel
 
 class AppearanceSettingsScreen : Screen {
 
@@ -25,7 +25,7 @@ class AppearanceSettingsScreen : Screen {
 
     @Composable
     private fun Screen(
-        screenModel: AppearanceSettingsScreenModel = getScreenModel()
+        screenModel: AppearancePreferencesScreenModel = getScreenModel()
     ) {
         val ctx = LocalContext.current
 

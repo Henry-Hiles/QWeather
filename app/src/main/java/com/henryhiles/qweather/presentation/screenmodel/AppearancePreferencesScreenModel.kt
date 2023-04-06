@@ -7,7 +7,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.manager.BasePreferenceManager
 
-class AppearanceSettingsManager(context: Context) :
+class AppearancePreferenceManager(context: Context) :
     BasePreferenceManager(context.getSharedPreferences("prefs", Context.MODE_PRIVATE)) {
     var theme by enumPreference("theme", Theme.SYSTEM)
     var monet by booleanPreference("monet", Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
@@ -19,6 +19,6 @@ enum class Theme(@StringRes val label: Int) {
     DARK(R.string.theme_dark);
 }
 
-class AppearanceSettingsScreenModel(
-    val prefs: AppearanceSettingsManager
+class AppearancePreferencesScreenModel(
+    val prefs: AppearancePreferenceManager
 ) : ScreenModel

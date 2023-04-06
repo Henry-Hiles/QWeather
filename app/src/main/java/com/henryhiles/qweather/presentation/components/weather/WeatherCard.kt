@@ -3,6 +3,8 @@ package com.henryhiles.qweather.presentation.components.weather
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Thermostat
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,14 +18,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.henryhiles.qweather.R
-import com.henryhiles.qweather.presentation.components.WeatherDataDisplay
-import com.henryhiles.qweather.presentation.screenmodel.WeatherState
+import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherState
 import java.time.format.DateTimeFormatter
-import kotlin.math.roundToInt
 
 @Composable
-fun WeatherCard(state: WeatherState, modifier: Modifier = Modifier) {
-    state.weatherInfo?.currentWeatherData?.let {
+fun WeatherCard(state: HourlyWeatherState, modifier: Modifier = Modifier) {
+    state.hourlyWeatherInfo?.currentWeatherData?.let {
         val formattedTime = remember(it) {
             it.time.format(DateTimeFormatter.ofPattern("HH:mm"))
         }
@@ -48,7 +48,7 @@ fun WeatherCard(state: WeatherState, modifier: Modifier = Modifier) {
                     modifier = Modifier.width(200.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = "${it.temperatureCelsius}°C", fontSize = 50.sp)
+                Text(text = "${it.temperature}°C", fontSize = 50.sp)
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = it.weatherType.weatherDesc, fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(32.dp))
@@ -57,19 +57,19 @@ fun WeatherCard(state: WeatherState, modifier: Modifier = Modifier) {
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     WeatherDataDisplay(
-                        value = it.pressure.roundToInt(),
-                        unit = "hpa",
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
-                        description = "Pressure",
+                        value = it.apparentTemperature,
+                        unit = "°C",
+                        icon = Icons.Default.Thermostat,
+                        description = "Feels like",
                     )
                     WeatherDataDisplay(
-                        value = it.humidity.roundToInt(),
+                        value = it.precipitationProbability,
                         unit = "%",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
-                        description = "Humidity"
+                        description = "Chance of precipitation"
                     )
                     WeatherDataDisplay(
-                        value = it.windSpeed.roundToInt(),
+                        value = it.windSpeed,
                         unit = "km/h",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
                         description = "Wind Speed",

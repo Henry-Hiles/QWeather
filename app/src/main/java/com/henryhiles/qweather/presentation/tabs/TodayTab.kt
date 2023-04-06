@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -21,8 +24,8 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.henryhiles.qweather.R
 import com.henryhiles.qweather.presentation.components.weather.WeatherCard
-import com.henryhiles.qweather.presentation.components.WeatherForecast
-import com.henryhiles.qweather.presentation.screenmodel.WeatherScreenModel
+import com.henryhiles.qweather.presentation.components.weather.WeatherForecast
+import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherScreenModel
 
 object TodayTab : Tab {
     override val options: TabOptions
@@ -43,7 +46,7 @@ object TodayTab : Tab {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
     @Composable
     override fun Content() {
-        val weatherViewModel = getScreenModel<WeatherScreenModel>()
+        val weatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
 
         val permissionsState = rememberPermissionState(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -65,27 +68,16 @@ object TodayTab : Tab {
                     )
                 }
                 weatherViewModel.state.error != null -> {
-                    AlertDialog(onDismissRequest = {}) {
-                        Surface(
-                            shape = MaterialTheme.shapes.large
-                        ) {
-                            Column(modifier = Modifier.padding(16.dp)) {
+                    AlertDialog(
+                        onDismissRequest = {},
+                        confirmButton = {},
+                        title = { Text(text = "An error occurred") }, text = {
+                            SelectionContainer {
                                 Text(
-                                    text = "An error occurred",
-                                    style = MaterialTheme.typography.headlineSmall,
-                                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                                    text = weatherViewModel.state.error!!,
                                 )
-
-                                SelectionContainer {
-                                    Text(
-                                        text = weatherViewModel.state.error!!,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        modifier = Modifier.padding(16.dp)
-                                    )
-                                }
                             }
-                        }
-                    }
+                        })
                 }
                 else -> {
                     Column(

@@ -9,13 +9,13 @@ import androidx.compose.material3.Surface
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.henryhiles.qweather.presentation.screen.MainScreen
-import com.henryhiles.qweather.presentation.screenmodel.PreferenceManager
+import com.henryhiles.qweather.presentation.screenmodel.AppearancePreferenceManager
 import com.henryhiles.qweather.presentation.screenmodel.Theme
 import com.henryhiles.qweather.presentation.ui.theme.WeatherAppTheme
 import org.koin.android.ext.android.inject
 
 class QWeatherActivity : ComponentActivity() {
-    private val prefs: PreferenceManager by inject()
+    private val prefs: AppearancePreferenceManager by inject()
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {

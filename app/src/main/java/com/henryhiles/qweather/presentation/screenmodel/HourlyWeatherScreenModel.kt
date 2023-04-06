@@ -8,20 +8,20 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.henryhiles.qweather.domain.location.LocationTracker
 import com.henryhiles.qweather.domain.repository.WeatherRepository
 import com.henryhiles.qweather.domain.util.Resource
-import com.henryhiles.qweather.domain.weather.WeatherInfo
+import com.henryhiles.qweather.domain.weather.HourlyWeatherInfo
 import kotlinx.coroutines.launch
 
-data class WeatherState(
-    val weatherInfo: WeatherInfo? = null,
+data class HourlyWeatherState(
+    val hourlyWeatherInfo: HourlyWeatherInfo? = null,
     val isLoading: Boolean = false,
     val error: String? = null
 )
 
-class WeatherScreenModel constructor(
+class HourlyWeatherScreenModel constructor(
     private val repository: WeatherRepository,
     private val locationTracker: LocationTracker,
 ) : ScreenModel {
-    var state by mutableStateOf(WeatherState())
+    var state by mutableStateOf(HourlyWeatherState())
         private set
 
     fun loadWeatherInfo() {
@@ -30,10 +30,10 @@ class WeatherScreenModel constructor(
             val currentLocation = locationTracker.getCurrentLocation()
             currentLocation?.let { location ->
                 state = when (val result =
-                    repository.getWeatherData(location.latitude, location.longitude)) {
+                    repository.getHourlyWeatherData(location.latitude, location.longitude)) {
                     is Resource.Success -> {
                         state.copy(
-                            weatherInfo = result.data,
+                            hourlyWeatherInfo = result.data,
                             isLoading = false,
                             error = null
                         )
@@ -41,7 +41,7 @@ class WeatherScreenModel constructor(
 
                     is Resource.Error -> {
                         state.copy(
-                            weatherInfo = null,
+                            hourlyWeatherInfo = null,
                             isLoading = false,
                             error = result.message
                         )

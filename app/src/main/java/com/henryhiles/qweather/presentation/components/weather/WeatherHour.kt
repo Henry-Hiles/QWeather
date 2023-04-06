@@ -11,11 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.henryhiles.qweather.domain.weather.WeatherData
+import com.henryhiles.qweather.domain.weather.HourlyWeatherData
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun WeatherHour(data: WeatherData, modifier: Modifier = Modifier) {
+fun WeatherHour(data: HourlyWeatherData, modifier: Modifier = Modifier) {
     data.let {
         val formattedTime = remember(it) {
             it.time.format(DateTimeFormatter.ofPattern("HH:mm"))
@@ -29,10 +29,10 @@ fun WeatherHour(data: WeatherData, modifier: Modifier = Modifier) {
             Text(text = formattedTime)
             Image(
                 painter = painterResource(id = it.weatherType.iconRes),
-                contentDescription = "Image of ${data.weatherType.weatherDesc}",
+                contentDescription = "Image of ${it.weatherType.weatherDesc}",
                 modifier = Modifier.width(40.dp)
             )
-            Text(text = "${it.temperatureCelsius}°C")
+            Text(text = "${it.temperature}°C")
         }
     }
 

@@ -1,35 +1,56 @@
 package com.henryhiles.qweather.domain.mappers
 
-import com.henryhiles.qweather.domain.remote.WeatherDataDto
+import com.henryhiles.qweather.domain.remote.DailyWeatherDataDto
+import com.henryhiles.qweather.domain.remote.HourlyWeatherDataDto
 import com.henryhiles.qweather.domain.remote.WeatherDto
-import com.henryhiles.qweather.domain.weather.WeatherData
-import com.henryhiles.qweather.domain.weather.WeatherInfo
+import com.henryhiles.qweather.domain.weather.DailyWeatherData
+import com.henryhiles.qweather.domain.weather.HourlyWeatherData
+import com.henryhiles.qweather.domain.weather.HourlyWeatherInfo
 import com.henryhiles.qweather.domain.weather.WeatherType
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
-private data class IndexedWeatherData(val index: Int, val data: WeatherData)
+private data class IndexedHourlyWeatherData(val index: Int, val data: HourlyWeatherData)
 
-fun WeatherDataDto.toWeatherDataMap(): Map<Int, List<WeatherData>> {
-    return time.mapIndexed { index, time ->
-        IndexedWeatherData(
-            index = index, data = WeatherData(
+fun HourlyWeatherDataDto.toHourlyWeatherDataMap(): Map<Int, List<HourlyWeatherData>> {
+    return times.mapIndexed { index, time ->
+        IndexedHourlyWeatherData(
+            index = index,
+            data = HourlyWeatherData(
                 time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
-                temperatureCelsius = temperatures[index].toInt(),
-                pressure = pressures[index],
-                windSpeed = windSpeeds[index],
-                humidity = humidities[index],
+                temperature = temperatures[index].roundToInt(),
+                apparentTemperature = apparentTemperatures[index].roundToInt(),
+                windSpeed = windSpeeds[index].roundToInt(),
+                precipitationProbability = precipitationProbabilities[index],
                 weatherType = WeatherType.fromWMO(weatherCodes[index])
             )
         )
     }.groupBy { it.index / 24 }.mapValues { entry -> entry.value.map { it.data } }
 }
 
-fun WeatherDto.toWeatherInfo(): WeatherInfo {
-    val weatherDataMap = weatherData.toWeatherDataMap()
+fun DailyWeatherDataDto.toDailyWeatherDataMap(): List<DailyWeatherData> {
+    return dates.mapIndexed { index, date ->
+        DailyWeatherData(
+            date = LocalDate.parse(date, DateTimeFormatter.ISO_DATE),
+            weatherType = WeatherType.fromWMO(weatherCodes[index]),
+            apparentTemperatureMax = apparentTemperaturesMax[index].roundToInt(),
+            apparentTemperatureMin = apparentTemperaturesMin[index].roundToInt(),
+            temperatureMax = temperaturesMax[index].roundToInt(),
+            temperatureMin = temperaturesMin[index].roundToInt()
+        )
+    }
+}
+
+fun WeatherDto.toHourlyWeatherInfo(): HourlyWeatherInfo {
+    val weatherDataMap = hourlyWeatherData.toHourlyWeatherDataMap()
     val now = LocalDateTime.now()
     val currentWeatherData = weatherDataMap[0]?.find {
         it.time.hour == now.hour
     }
-    return WeatherInfo(weatherDataPerDay = weatherDataMap, currentWeatherData = currentWeatherData)
+    return HourlyWeatherInfo(
+        weatherDataPerDay = weatherDataMap,
+        currentWeatherData = currentWeatherData
+    )
 }

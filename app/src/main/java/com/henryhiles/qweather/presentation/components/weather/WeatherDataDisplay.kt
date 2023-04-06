@@ -1,4 +1,4 @@
-package com.henryhiles.qweather.presentation.components
+package com.henryhiles.qweather.presentation.components.weather
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.henryhiles.qweather.R
 
 @Composable
 fun WeatherDataDisplay(
-    value: Int,
+    value: Int?,
     unit: String,
     icon: ImageVector,
     description: String,
@@ -24,10 +26,9 @@ fun WeatherDataDisplay(
         Icon(
             imageVector = icon,
             contentDescription = description,
-//            tint = MaterialTheme.colorScheme.onSecondary,
             modifier = Modifier.size(25.dp)
         )
         Spacer(modifier = Modifier.width(4.dp))
-        Text(text = "$value$unit")
+        Text(text = if (value == null) stringResource(id = R.string.unknown) else "$value$unit")
     }
 }
