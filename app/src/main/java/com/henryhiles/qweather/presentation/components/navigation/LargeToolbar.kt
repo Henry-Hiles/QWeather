@@ -1,4 +1,4 @@
-package com.henryhiles.qweather.presentation.components
+package com.henryhiles.qweather.presentation.components.navigation
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.*
@@ -6,13 +6,14 @@ import androidx.compose.runtime.Composable
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun SmallToolbar(
-    title: String,
+fun LargeToolbar(
+    title: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit = {},
+    backButton: Boolean = false
 ) {
-    TopAppBar(
-        title = { Text(text = title) },
-        navigationIcon = { BackButton() },
+    LargeTopAppBar(
+        title = title,
+        navigationIcon = { if (backButton) BackButton() },
         actions = actions,
     )
 }

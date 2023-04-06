@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -13,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.henryhiles.qweather.R
-import com.henryhiles.qweather.presentation.components.LargeToolbar
+import com.henryhiles.qweather.presentation.components.navigation.SmallToolbar
 import com.henryhiles.qweather.presentation.components.settings.SettingsItemChoice
 import com.henryhiles.qweather.presentation.components.settings.SettingsSwitch
 import com.henryhiles.qweather.presentation.screenmodel.AppearancePreferencesScreenModel
@@ -24,12 +25,16 @@ class AppearanceSettingsScreen : Screen {
     override fun Content() = Screen()
 
     @Composable
-    private fun Screen(
-        screenModel: AppearancePreferencesScreenModel = getScreenModel()
-    ) {
+    private fun Screen() {
+        val screenModel: AppearancePreferencesScreenModel = getScreenModel()
         val ctx = LocalContext.current
 
-        Scaffold(topBar = { Toolbar() }) { padding ->
+        Scaffold(topBar = {
+            SmallToolbar(
+                title = { Text(text = stringResource(R.string.settings_appearance)) },
+                backButton = true
+            )
+        }) { padding ->
             Column(
                 modifier = Modifier
                     .padding(padding)
@@ -52,13 +57,4 @@ class AppearanceSettingsScreen : Screen {
             }
         }
     }
-
-    @Composable
-    private fun Toolbar(
-    ) {
-        LargeToolbar(
-            title = stringResource(R.string.settings_appearance),
-        )
-    }
-
 }

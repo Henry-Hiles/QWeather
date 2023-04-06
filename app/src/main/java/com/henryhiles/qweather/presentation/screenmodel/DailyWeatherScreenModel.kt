@@ -1,5 +1,6 @@
 package com.henryhiles.qweather.presentation.screenmodel
 
+import android.location.Location
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,11 +24,12 @@ class DailyWeatherScreenModel constructor(
 ) : ScreenModel {
     var state by mutableStateOf(DailyWeatherState())
         private set
+    private var currentLocation: Location? = null
 
     fun loadWeatherInfo() {
         coroutineScope.launch {
             state = state.copy(isLoading = true, error = null)
-            val currentLocation = locationTracker.getCurrentLocation()
+            currentLocation = locationTracker.getCurrentLocation()
             currentLocation?.let { location ->
                 state = when (val result =
                     repository.getDailyWeatherData(location.latitude, location.longitude)) {
@@ -38,7 +40,6 @@ class DailyWeatherScreenModel constructor(
                             error = null
                         )
                     }
-
                     is Resource.Error -> {
                         state.copy(
                             dailyWeatherData = null,

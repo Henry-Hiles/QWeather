@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +18,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun WeatherDay(dailyWeatherData: DailyWeatherData) {
-    val formattedDate = remember {
+    val formattedDate by remember {
         derivedStateOf {
             dailyWeatherData.date.format(
                 DateTimeFormatter.ofPattern("E d")
@@ -45,7 +46,7 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
-                    text = formattedDate.value
+                    text = formattedDate
                 )
                 Text(text = "Feels like ${dailyWeatherData.apparentTemperatureMax}°C")
             }

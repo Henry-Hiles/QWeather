@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,15 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.henryhiles.qweather.R
+import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.weather.WeatherDay
 import com.henryhiles.qweather.presentation.screenmodel.DailyWeatherScreenModel
 
-object WeekTab : Tab {
+object WeekTab : NavigationTab {
     override val options: TabOptions
         @Composable
         get() {
@@ -90,6 +91,18 @@ object WeekTab : Tab {
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    override fun Actions() {
+        val viewModel: DailyWeatherScreenModel = getScreenModel()
+
+        IconButton(onClick = { viewModel.loadWeatherInfo() }) {
+            Icon(
+                imageVector = Icons.Filled.Refresh,
+                contentDescription = stringResource(R.string.action_reload)
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.henryhiles.qweather.presentation.components
+package com.henryhiles.qweather.presentation.components.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack

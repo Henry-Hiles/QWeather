@@ -1,26 +1,26 @@
 package com.henryhiles.qweather.presentation.tabs
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
-import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.henryhiles.qweather.R
-import com.henryhiles.qweather.presentation.components.SmallToolbar
+import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.settings.SettingsCategory
+import com.henryhiles.qweather.presentation.screen.AboutScreen
 import com.henryhiles.qweather.presentation.screen.AppearanceSettingsScreen
 
-object SettingsTab : Tab {
+object SettingsTab : NavigationTab {
     override val options: TabOptions
         @Composable
         get() {
@@ -38,26 +38,25 @@ object SettingsTab : Tab {
 
     @Composable
     override fun Content() {
-        Scaffold(
-            topBar = {
-                SmallToolbar(
-                    title = stringResource(R.string.tab_settings),
-                )
-            },
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(it)
-                    .verticalScroll(rememberScrollState())
-            ) {
+        Column {
+            SettingsCategory(
+                icon = Icons.Outlined.Palette,
+                text = stringResource(R.string.settings_appearance),
+                subtext = stringResource(R.string.settings_appearance_description),
+                destination = ::AppearanceSettingsScreen
+            )
+        }
+    }
 
-                SettingsCategory(
-                    icon = Icons.Outlined.Palette,
-                    text = stringResource(R.string.settings_appearance),
-                    subtext = stringResource(R.string.settings_appearance_description),
-                    destination = ::AppearanceSettingsScreen
-                )
-            }
+    @Composable
+    override fun Actions() {
+        val navigator = LocalNavigator.currentOrThrow.parent
+
+        IconButton(onClick = { navigator?.push(AboutScreen()) }) {
+            Icon(
+                imageVector = Icons.Outlined.Info,
+                contentDescription = stringResource(R.string.action_open_about)
+            )
         }
     }
 }

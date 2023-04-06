@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -18,16 +16,16 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.getScreenModel
-import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.henryhiles.qweather.R
+import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.weather.WeatherCard
 import com.henryhiles.qweather.presentation.components.weather.WeatherForecast
 import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherScreenModel
 
-object TodayTab : Tab {
+object TodayTab : NavigationTab {
     override val options: TabOptions
         @Composable
         get() {
@@ -43,7 +41,7 @@ object TodayTab : Tab {
             }
         }
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+    @OptIn(ExperimentalPermissionsApi::class)
     @Composable
     override fun Content() {
         val weatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
@@ -90,6 +88,18 @@ object TodayTab : Tab {
                     }
                 }
             }
+        }
+    }
+
+    @Composable
+    override fun Actions() {
+        val viewModel: HourlyWeatherScreenModel = getScreenModel()
+
+        IconButton(onClick = { viewModel.loadWeatherInfo() }) {
+            Icon(
+                imageVector = Icons.Filled.Refresh,
+                contentDescription = stringResource(R.string.action_reload)
+            )
         }
     }
 }
