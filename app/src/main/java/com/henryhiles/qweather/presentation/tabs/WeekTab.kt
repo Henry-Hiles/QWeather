@@ -1,7 +1,6 @@
 package com.henryhiles.qweather.presentation.tabs
 
 import android.Manifest
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,17 +14,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.henryhiles.qweather.R
+import com.henryhiles.qweather.presentation.components.weather.WeatherDay
 import com.henryhiles.qweather.presentation.screenmodel.DailyWeatherScreenModel
-import java.time.format.DateTimeFormatter
 
 object WeekTab : Tab {
     override val options: TabOptions
@@ -87,41 +84,7 @@ object WeekTab : Tab {
                     ) {
                         weatherViewModel.state.dailyWeatherData?.let { data ->
                             items(data) {
-                                val formattedDate = it.date.format(
-                                    DateTimeFormatter.ofPattern("E d")
-                                )
-                                Card(
-                                    modifier = Modifier.padding(
-                                        horizontal = 16.dp,
-                                        vertical = 8.dp
-                                    )
-                                ) {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(16.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Image(
-                                            painter = painterResource(id = it.weatherType.iconRes),
-                                            contentDescription = "Image of ${it.weatherType}",
-                                            modifier = Modifier.width(48.dp)
-                                        )
-                                        Spacer(modifier = Modifier.width(16.dp))
-                                        Column {
-                                            Text(
-                                                text = formattedDate
-                                            )
-                                            Text(text = "Feels like ${it.apparentTemperatureMax}°C")
-                                        }
-
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        Text(
-                                            text = "${it.temperatureMax}°C",
-                                            style = MaterialTheme.typography.titleLarge,
-                                        )
-                                    }
-                                }
+                                WeatherDay(dailyWeatherData = it)
                             }
                         }
                     }
