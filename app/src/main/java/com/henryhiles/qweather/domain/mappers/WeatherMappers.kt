@@ -23,7 +23,7 @@ fun HourlyWeatherDataDto.toHourlyWeatherDataMap(): Map<Int, List<HourlyWeatherDa
                 temperature = temperatures[index].roundToInt(),
                 apparentTemperature = apparentTemperatures[index].roundToInt(),
                 windSpeed = windSpeeds[index].roundToInt(),
-                precipitationProbability = precipitationProbabilities[index],
+                precipitationProbability = if (index in precipitationProbabilities.indices) precipitationProbabilities[index] else null,
                 weatherType = WeatherType.fromWMO(weatherCodes[index])
             )
         )
