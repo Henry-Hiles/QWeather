@@ -25,6 +25,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import com.henryhiles.qweather.R
 import com.henryhiles.qweather.presentation.screenmodel.DailyWeatherScreenModel
+import java.time.format.DateTimeFormatter
 
 object WeekTab : Tab {
     override val options: TabOptions
@@ -86,6 +87,9 @@ object WeekTab : Tab {
                     ) {
                         weatherViewModel.state.dailyWeatherData?.let { data ->
                             items(data) {
+                                val formattedDate = it.date.format(
+                                    DateTimeFormatter.ofPattern("E d")
+                                )
                                 Card(
                                     modifier = Modifier.padding(
                                         horizontal = 16.dp,
@@ -95,7 +99,6 @@ object WeekTab : Tab {
                                     Row(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .height(64.dp)
                                             .padding(16.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
@@ -105,21 +108,18 @@ object WeekTab : Tab {
                                             modifier = Modifier.width(48.dp)
                                         )
                                         Spacer(modifier = Modifier.width(16.dp))
+                                        Column {
+                                            Text(
+                                                text = formattedDate
+                                            )
+                                            Text(text = "Feels like ${it.apparentTemperatureMax}°C")
+                                        }
+
+                                        Spacer(modifier = Modifier.weight(1f))
                                         Text(
-                                            text = //it.date.dayOfWeek
-                                            when (it.date.dayOfWeek.value) {
-                                                1 -> "Monday"
-                                                2 -> "Tuesday"
-                                                3 -> "Wednesday"
-                                                4 -> "Thursday"
-                                                5 -> "Friday"
-                                                6 -> "Saturday"
-                                                7 -> "Sunday"
-                                                else -> "Unknown"
-                                            }
+                                            text = "${it.temperatureMax}°C",
+                                            style = MaterialTheme.typography.titleLarge,
                                         )
-                                        Spacer(modifier = Modifier.width(24.dp))
-                                        Text(text = it.temperatureMax.toString())
                                     }
                                 }
                             }
