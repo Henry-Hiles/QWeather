@@ -26,13 +26,17 @@ class DailyWeatherScreenModel constructor(
         private set
     private var currentLocation: Location? = null
 
-    fun loadWeatherInfo() {
+    fun loadWeatherInfo(cache: Boolean = true) {
         coroutineScope.launch {
             state = state.copy(isLoading = true, error = null)
             currentLocation = locationTracker.getCurrentLocation()
             currentLocation?.let { location ->
                 state = when (val result =
-                    repository.getDailyWeatherData(location.latitude, location.longitude)) {
+                    repository.getDailyWeatherData(
+                        lat = location.latitude,
+                        long = location.longitude,
+                        cache = cache
+                    )) {
                     is Resource.Success -> {
                         state.copy(
                             dailyWeatherData = result.data,

@@ -95,7 +95,7 @@ object TodayTab : NavigationTab {
     override fun Actions() {
         val viewModel: HourlyWeatherScreenModel = getScreenModel()
 
-        IconButton(onClick = { viewModel.loadWeatherInfo() }) {
+        IconButton(onClick = { viewModel.loadWeatherInfo(cache = false) }) {
             Icon(
                 imageVector = Icons.Filled.Refresh,
                 contentDescription = stringResource(R.string.action_reload)

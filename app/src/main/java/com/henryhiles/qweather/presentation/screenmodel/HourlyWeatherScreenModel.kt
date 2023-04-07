@@ -24,13 +24,17 @@ class HourlyWeatherScreenModel constructor(
     var state by mutableStateOf(HourlyWeatherState())
         private set
 
-    fun loadWeatherInfo() {
+    fun loadWeatherInfo(cache: Boolean = true) {
         coroutineScope.launch {
             state = state.copy(isLoading = true, error = null)
             val currentLocation = locationTracker.getCurrentLocation()
             currentLocation?.let { location ->
                 state = when (val result =
-                    repository.getHourlyWeatherData(location.latitude, location.longitude)) {
+                    repository.getHourlyWeatherData(
+                        lat = location.latitude,
+                        long = location.longitude,
+                        cache = cache
+                    )) {
                     is Resource.Success -> {
                         state.copy(
                             hourlyWeatherInfo = result.data,

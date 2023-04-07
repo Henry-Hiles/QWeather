@@ -8,10 +8,21 @@ import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import com.henryhiles.qweather.domain.weather.HourlyWeatherInfo
 
 class WeatherRepository constructor(private val api: WeatherApi) {
-    suspend fun getHourlyWeatherData(lat: Double, long: Double): Resource<HourlyWeatherInfo> {
+    suspend fun getHourlyWeatherData(
+        lat: Double,
+        long: Double,
+        cache: Boolean = true
+    ): Resource<HourlyWeatherInfo> {
         return try {
             Resource.Success(
-                data = api.getWeatherData(lat = lat, long = long).toHourlyWeatherInfo()
+                data = (
+                        if (cache) api.getWeatherData(
+                            lat = lat,
+                            long = long
+                        ) else api.getWeatherDataWithoutCache(
+                            lat = lat,
+                            long = long
+                        )).toHourlyWeatherInfo()
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -21,14 +32,19 @@ class WeatherRepository constructor(private val api: WeatherApi) {
 
     suspend fun getDailyWeatherData(
         lat: Double,
-        long: Double
+        long: Double,
+        cache: Boolean = true
     ): Resource<List<DailyWeatherData>> {
         return try {
             Resource.Success(
-                data = api.getWeatherData(
+                (if (cache) api.getWeatherData(
                     lat = lat,
                     long = long
-                ).dailyWeatherData.toDailyWeatherDataMap()
+                ) else api.getWeatherDataWithoutCache(
+                    lat = lat,
+                    long = long
+                ))
+                    .dailyWeatherData.toDailyWeatherDataMap()
             )
         } catch (e: Exception) {
             e.printStackTrace()
