@@ -5,7 +5,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 
 const val DAILY =
-    "daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min"
+    "daily=weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum,precipitation_probability_max,windspeed_10m_max"
 const val HOURLY =
     "hourly=temperature_2m,apparent_temperature,precipitation_probability,weathercode,windspeed_10m"
 const val TIMEZONE = "timezone=auto"

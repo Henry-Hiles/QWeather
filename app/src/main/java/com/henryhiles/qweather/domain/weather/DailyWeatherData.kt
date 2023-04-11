@@ -9,4 +9,6 @@ data class DailyWeatherData(
     val temperatureMin: Int,
     val apparentTemperatureMax: Int,
     val apparentTemperatureMin: Int,
+    val precipitationProbabilityMax: Int?,
+    val windSpeedMax: Int
 )

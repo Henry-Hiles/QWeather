@@ -4,15 +4,15 @@ import com.squareup.moshi.Json
 
 data class HourlyWeatherDataDto(
     @field:Json(name = "time")
-    val times: List<String>,
+    val time: List<String>,
     @field:Json(name = "temperature_2m")
-    val temperatures: List<Double>,
+    val temperature: List<Double>,
     @field:Json(name = "apparent_temperature")
-    val apparentTemperatures: List<Double>,
+    val apparentTemperature: List<Double>,
     @field:Json(name = "weathercode")
-    val weatherCodes: List<Int>,
+    val weatherCode: List<Int>,
     @field:Json(name = "precipitation_probability")
-    val precipitationProbabilities: List<Int>,
+    val precipitationProbability: List<Int>,
     @field:Json(name = "windspeed_10m")
-    val windSpeeds: List<Double>,
+    val windSpeed: List<Double>,
 )

@@ -23,28 +23,7 @@ class LocationTracker constructor(
             LocationManager.GPS_PROVIDER
         )
         if (!hasAccessFineLocationPermission || !isGpsEnabled) return null
-
+        
         return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//        return suspendCancellableCoroutine { cont ->
-//            locationManager.getLastKnownLocation.apply {
-//                if (isComplete) {
-//                    if (isSuccessful) {
-//                        cont.resume(result)
-//                    } else {
-//                        cont.resume(null)
-//                    }
-//                    return@suspendCancellableCoroutine
-//                }
-//                addOnSuccessListener {
-//                    cont.resume(it)
-//                }
-//                addOnFailureListener {
-//                    cont.resume(null)
-//                }
-//                addOnCanceledListener {
-//                    cont.cancel()
-//                }
-//            }
-//        }
     }
 }

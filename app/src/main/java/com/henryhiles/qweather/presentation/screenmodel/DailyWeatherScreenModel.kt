@@ -15,7 +15,8 @@ import kotlinx.coroutines.launch
 data class DailyWeatherState(
     val dailyWeatherData: List<DailyWeatherData>? = null,
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val expanded: Int? = null
 )
 
 class DailyWeatherScreenModel constructor(
@@ -59,5 +60,9 @@ class DailyWeatherScreenModel constructor(
                 )
             }
         }
+    }
+
+    fun setExpanded(index: Int?) {
+        state = state.copy(expanded = index)
     }
 }

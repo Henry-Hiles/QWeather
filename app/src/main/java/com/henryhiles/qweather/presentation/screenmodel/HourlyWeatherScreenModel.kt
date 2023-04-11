@@ -1,10 +1,12 @@
 package com.henryhiles.qweather.presentation.screenmodel
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.location.LocationTracker
 import com.henryhiles.qweather.domain.repository.WeatherRepository
 import com.henryhiles.qweather.domain.util.Resource
@@ -14,12 +16,14 @@ import kotlinx.coroutines.launch
 data class HourlyWeatherState(
     val hourlyWeatherInfo: HourlyWeatherInfo? = null,
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val expanded: Int? = null
 )
 
 class HourlyWeatherScreenModel constructor(
     private val repository: WeatherRepository,
     private val locationTracker: LocationTracker,
+    private val context: Context
 ) : ScreenModel {
     var state by mutableStateOf(HourlyWeatherState())
         private set
@@ -54,7 +58,7 @@ class HourlyWeatherScreenModel constructor(
             } ?: kotlin.run {
                 state = state.copy(
                     isLoading = false,
-                    error = "Couldn't retrieve location. Make sure to grant permission and enable GPS."
+                    error = context.getString(R.string.error_location)
                 )
             }
         }

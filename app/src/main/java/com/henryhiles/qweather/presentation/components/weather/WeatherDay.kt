@@ -1,7 +1,11 @@
 package com.henryhiles.qweather.presentation.components.weather
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Water
+import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -11,13 +15,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun WeatherDay(dailyWeatherData: DailyWeatherData) {
+fun WeatherDay(dailyWeatherData: DailyWeatherData, expanded: Boolean, onExpand: () -> Unit) {
     val formattedDate by remember {
         derivedStateOf {
             dailyWeatherData.date.format(
@@ -27,10 +34,12 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
     }
 
     Card(
-        modifier = Modifier.padding(
-            horizontal = 16.dp,
-            vertical = 8.dp
-        )
+        modifier = Modifier
+            .padding(
+                horizontal = 16.dp,
+                vertical = 8.dp
+            )
+            .clickable(onClick = onExpand)
     ) {
         Row(
             modifier = Modifier
@@ -40,9 +49,10 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
         ) {
             Image(
                 painter = painterResource(id = dailyWeatherData.weatherType.iconRes),
-                contentDescription = "Image of ${dailyWeatherData.weatherType}",
+                contentDescription = "Image of ${dailyWeatherData.weatherType.weatherDesc}",
                 modifier = Modifier.width(48.dp)
             )
+
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
@@ -56,6 +66,37 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
                 text = "${dailyWeatherData.temperatureMax}°C",
                 style = MaterialTheme.typography.titleLarge,
             )
+        }
+        if (expanded) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp, 0.dp, 16.dp, 16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                WeatherDataDisplay(
+                    value = dailyWeatherData.precipitationProbabilityMax,
+                    unit = "%",
+                    icon = Icons.Outlined.WaterDrop,
+                    description = "Chance of rain"
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+                WeatherDataDisplay(
+                    value = dailyWeatherData.windSpeedMax,
+                    unit = "mm",
+                    icon = Icons.Outlined.Water,
+                    description = "Precipitation Amount"
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+                WeatherDataDisplay(
+                    value = dailyWeatherData.windSpeedMax,
+                    unit = "km/h",
+                    icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
+                    description = "Wind Speed"
+                )
+            }
         }
     }
 }

@@ -15,30 +15,32 @@ import kotlin.math.roundToInt
 private data class IndexedHourlyWeatherData(val index: Int, val data: HourlyWeatherData)
 
 fun HourlyWeatherDataDto.toHourlyWeatherDataMap(): Map<Int, List<HourlyWeatherData>> {
-    return times.mapIndexed { index, time ->
+    return time.mapIndexed { index, time ->
         IndexedHourlyWeatherData(
             index = index,
             data = HourlyWeatherData(
                 time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
-                temperature = temperatures[index].roundToInt(),
-                apparentTemperature = apparentTemperatures[index].roundToInt(),
-                windSpeed = windSpeeds[index].roundToInt(),
-                precipitationProbability = precipitationProbabilities.getOrNull(index),
-                weatherType = WeatherType.fromWMO(weatherCodes[index])
+                temperature = temperature[index].roundToInt(),
+                apparentTemperature = apparentTemperature[index].roundToInt(),
+                windSpeed = windSpeed[index].roundToInt(),
+                precipitationProbability = precipitationProbability.getOrNull(index),
+                weatherType = WeatherType.fromWMO(weatherCode[index])
             )
         )
     }.groupBy { it.index / 24 }.mapValues { entry -> entry.value.map { it.data } }
 }
 
 fun DailyWeatherDataDto.toDailyWeatherDataMap(): List<DailyWeatherData> {
-    return dates.mapIndexed { index, date ->
+    return date.mapIndexed { index, date ->
         DailyWeatherData(
             date = LocalDate.parse(date, DateTimeFormatter.ISO_DATE),
-            weatherType = WeatherType.fromWMO(weatherCodes[index]),
-            apparentTemperatureMax = apparentTemperaturesMax[index].roundToInt(),
-            apparentTemperatureMin = apparentTemperaturesMin[index].roundToInt(),
-            temperatureMax = temperaturesMax[index].roundToInt(),
-            temperatureMin = temperaturesMin[index].roundToInt()
+            weatherType = WeatherType.fromWMO(weatherCode[index]),
+            apparentTemperatureMax = apparentTemperatureMax[index].roundToInt(),
+            apparentTemperatureMin = apparentTemperatureMin[index].roundToInt(),
+            temperatureMax = temperatureMax[index].roundToInt(),
+            temperatureMin = temperatureMin[index].roundToInt(),
+            precipitationProbabilityMax = precipitationProbabilityMax.getOrNull(index),
+            windSpeedMax = windSpeedMax[index].roundToInt()
         )
     }
 }

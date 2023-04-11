@@ -4,15 +4,21 @@ import com.squareup.moshi.Json
 
 data class DailyWeatherDataDto(
     @field:Json(name = "time")
-    val dates: List<String>,
+    val date: List<String>,
     @field:Json(name = "weathercode")
-    val weatherCodes: List<Int>,
+    val weatherCode: List<Int>,
+    @field:Json(name = "precipitation_probability_max")
+    val precipitationProbabilityMax: List<Int>,
+    @field:Json(name = "precipitation_sum")
+    val precipitationSum: List<Double>,
+    @field:Json(name = "windspeed_10m_max")
+    val windSpeedMax: List<Double>,
     @field:Json(name = "temperature_2m_max")
-    val temperaturesMax: List<Double>,
+    val temperatureMax: List<Double>,
     @field:Json(name = "temperature_2m_min")
-    val temperaturesMin: List<Double>,
+    val temperatureMin: List<Double>,
     @field:Json(name = "apparent_temperature_max")
-    val apparentTemperaturesMax: List<Double>,
+    val apparentTemperatureMax: List<Double>,
     @field:Json(name = "apparent_temperature_min")
-    val apparentTemperaturesMin: List<Double>
+    val apparentTemperatureMin: List<Double>
 )

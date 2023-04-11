@@ -45,7 +45,6 @@ object TodayTab : NavigationTab {
     @Composable
     override fun Content() {
         val weatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
-
         val permissionsState = rememberPermissionState(
             Manifest.permission.ACCESS_FINE_LOCATION,
         ) {
@@ -68,14 +67,20 @@ object TodayTab : NavigationTab {
                 weatherViewModel.state.error != null -> {
                     AlertDialog(
                         onDismissRequest = {},
-                        confirmButton = {},
-                        title = { Text(text = "An error occurred") }, text = {
+                        confirmButton = {
+                            TextButton(onClick = { weatherViewModel.loadWeatherInfo() }) {
+                                Text(text = stringResource(id = R.string.action_try_again))
+                            }
+                        },
+                        title = { Text(text = stringResource(id = R.string.error)) },
+                        text = {
                             SelectionContainer {
                                 Text(
                                     text = weatherViewModel.state.error!!,
                                 )
                             }
-                        })
+                        },
+                    )
                 }
                 else -> {
                     Column(
