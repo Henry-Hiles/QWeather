@@ -12,22 +12,17 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
-private data class IndexedHourlyWeatherData(val index: Int, val data: HourlyWeatherData)
-
-fun HourlyWeatherDataDto.toHourlyWeatherDataMap(): Map<Int, List<HourlyWeatherData>> {
-    return time.mapIndexed { index, time ->
-        IndexedHourlyWeatherData(
-            index = index,
-            data = HourlyWeatherData(
-                time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
-                temperature = temperature[index].roundToInt(),
-                apparentTemperature = apparentTemperature[index].roundToInt(),
-                windSpeed = windSpeed[index].roundToInt(),
-                precipitationProbability = precipitationProbability.getOrNull(index),
-                weatherType = WeatherType.fromWMO(weatherCode[index])
-            )
+fun HourlyWeatherDataDto.toHourlyWeatherDataMap(): List<HourlyWeatherData> {
+    return time.subList(0, 24).mapIndexed { index, time ->
+        HourlyWeatherData(
+            time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
+            temperature = temperature[index].roundToInt(),
+            apparentTemperature = apparentTemperature[index].roundToInt(),
+            windSpeed = windSpeed[index].roundToInt(),
+            precipitationProbability = precipitationProbability.getOrNull(index),
+            weatherType = WeatherType.fromWMO(weatherCode[index])
         )
-    }.groupBy { it.index / 24 }.mapValues { entry -> entry.value.map { it.data } }
+    }
 }
 
 fun DailyWeatherDataDto.toDailyWeatherDataMap(): List<DailyWeatherData> {
@@ -48,11 +43,11 @@ fun DailyWeatherDataDto.toDailyWeatherDataMap(): List<DailyWeatherData> {
 fun WeatherDto.toHourlyWeatherInfo(): HourlyWeatherInfo {
     val weatherDataMap = hourlyWeatherData.toHourlyWeatherDataMap()
     val now = LocalDateTime.now()
-    val currentWeatherData = weatherDataMap[0]?.find {
+    val currentWeatherData = weatherDataMap.find {
         it.time.hour == now.hour
     }
     return HourlyWeatherInfo(
-        weatherDataPerDay = weatherDataMap,
+        weatherData = weatherDataMap,
         currentWeatherData = currentWeatherData
     )
 }

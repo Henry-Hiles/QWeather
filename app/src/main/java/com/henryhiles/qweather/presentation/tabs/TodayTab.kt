@@ -87,9 +87,15 @@ object TodayTab : NavigationTab {
                         modifier = Modifier
                             .fillMaxSize()
                     ) {
-                        WeatherCard(state = weatherViewModel.state)
+                        WeatherCard(
+                            hour = weatherViewModel.state.selected?.let {
+                                weatherViewModel.state.hourlyWeatherInfo?.weatherData?.get(it)
+                            } ?: weatherViewModel.state.hourlyWeatherInfo?.currentWeatherData
+                        )
                         Spacer(modifier = Modifier.height(16.dp))
-                        WeatherForecast(state = weatherViewModel.state)
+                        WeatherForecast(
+                            state = weatherViewModel.state
+                        ) { weatherViewModel.setSelected(it) }
                     }
                 }
             }

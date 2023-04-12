@@ -18,12 +18,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.henryhiles.qweather.R
-import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherState
+import com.henryhiles.qweather.domain.weather.HourlyWeatherData
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun WeatherCard(state: HourlyWeatherState, modifier: Modifier = Modifier) {
-    state.hourlyWeatherInfo?.currentWeatherData?.let {
+fun WeatherCard(hour: HourlyWeatherData?, modifier: Modifier = Modifier) {
+    hour?.let {
         val formattedTime = remember(it) {
             it.time.format(DateTimeFormatter.ofPattern("HH:mm"))
         }

@@ -17,7 +17,7 @@ data class HourlyWeatherState(
     val hourlyWeatherInfo: HourlyWeatherInfo? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
-    val expanded: Int? = null
+    val selected: Int? = null
 )
 
 class HourlyWeatherScreenModel constructor(
@@ -30,7 +30,7 @@ class HourlyWeatherScreenModel constructor(
 
     fun loadWeatherInfo(cache: Boolean = true) {
         coroutineScope.launch {
-            state = state.copy(isLoading = true, error = null)
+            state = state.copy(isLoading = true, error = null, selected = null)
             val currentLocation = locationTracker.getCurrentLocation()
             currentLocation?.let { location ->
                 state = when (val result =
@@ -43,7 +43,7 @@ class HourlyWeatherScreenModel constructor(
                         state.copy(
                             hourlyWeatherInfo = result.data,
                             isLoading = false,
-                            error = null
+                            error = null,
                         )
                     }
 
@@ -62,5 +62,9 @@ class HourlyWeatherScreenModel constructor(
                 )
             }
         }
+    }
+
+    fun setSelected(index: Int) {
+        state = state.copy(selected = index)
     }
 }

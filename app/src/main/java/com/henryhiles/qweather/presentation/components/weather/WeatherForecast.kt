@@ -2,7 +2,7 @@ package com.henryhiles.qweather.presentation.components.weather
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,8 +14,12 @@ import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherState
 import java.time.LocalDateTime
 
 @Composable
-fun WeatherForecast(state: HourlyWeatherState, modifier: Modifier = Modifier) {
-    state.hourlyWeatherInfo?.weatherDataPerDay?.get(0)?.let {
+fun WeatherForecast(
+    state: HourlyWeatherState,
+    modifier: Modifier = Modifier,
+    onChangeSelected: (Int) -> Unit
+) {
+    state.hourlyWeatherInfo?.weatherData?.let {
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -26,12 +30,12 @@ fun WeatherForecast(state: HourlyWeatherState, modifier: Modifier = Modifier) {
             val rowState = rememberLazyListState(LocalDateTime.now().hour)
 
             LazyRow(state = rowState) {
-                items(it) {
+                itemsIndexed(it) { index, data ->
                     WeatherHour(
-                        data = it,
+                        data = data,
                         modifier = Modifier
-                            .height(100.dp)
-                            .padding(horizontal = 16.dp)
+                            .padding(horizontal = 8.dp),
+                        onChangeSelected = { onChangeSelected(index) }
                     )
                 }
             }
