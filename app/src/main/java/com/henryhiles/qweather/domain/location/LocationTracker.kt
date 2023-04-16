@@ -8,7 +8,7 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 
-class LocationTracker constructor(
+class LocationTracker(
     private val application: Application
 ) {
     fun getCurrentLocation(): Location? {

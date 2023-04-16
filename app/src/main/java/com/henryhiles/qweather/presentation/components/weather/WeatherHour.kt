@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -21,8 +23,8 @@ fun WeatherHour(
     onChangeSelected: () -> Unit
 ) {
     data.let {
-        val formattedTime = remember(it) {
-            it.time.format(DateTimeFormatter.ofPattern("HH:mm"))
+        val formattedTime by remember {
+            derivedStateOf { it.time.format(DateTimeFormatter.ofPattern("HH:mm")) }
         }
         Card(modifier = modifier.clickable {
             onChangeSelected()
@@ -44,21 +46,7 @@ fun WeatherHour(
 
                 Text(text = "${it.temperature}°C")
             }
-
         }
-//        Column(
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.SpaceBetween,
-//            modifier = modifier
-//        ) {
-//            Text(text = formattedTime)
-//            Image(
-//                painter = painterResource(id = it.weatherType.iconRes),
-//                contentDescription = "Image of ${it.weatherType.weatherDesc}",
-//                modifier = Modifier.width(40.dp)
-//            )
-//            Text(text = "${it.temperature}°C")
-//        }
     }
 
 }

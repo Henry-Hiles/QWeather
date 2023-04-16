@@ -20,7 +20,7 @@ data class HourlyWeatherState(
     val selected: Int? = null
 )
 
-class HourlyWeatherScreenModel constructor(
+class HourlyWeatherScreenModel(
     private val repository: WeatherRepository,
     private val locationTracker: LocationTracker,
     private val context: Context
@@ -35,8 +35,8 @@ class HourlyWeatherScreenModel constructor(
             currentLocation?.let { location ->
                 state = when (val result =
                     repository.getHourlyWeatherData(
-                        lat = location.latitude,
-                        long = location.longitude,
+                        lat = location.latitude.toFloat(),
+                        long = location.longitude.toFloat(),
                         cache = cache
                     )) {
                     is Resource.Success -> {

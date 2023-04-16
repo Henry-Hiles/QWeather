@@ -3,6 +3,7 @@ package com.henryhiles.qweather.di
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.henryhiles.qweather.domain.remote.GeocodingApi
 import com.henryhiles.qweather.domain.remote.WeatherApi
 import okhttp3.Cache
 import okhttp3.Interceptor
@@ -30,7 +31,6 @@ private fun isNetworkAvailable(context: Context): Boolean {
 
 val appModule = module {
     fun provideWeatherApi(context: Context): WeatherApi {
-
         val cacheControlInterceptor = Interceptor { chain ->
             val originalResponse = chain.proceed(chain.request())
             if (isNetworkAvailable(context)) {
@@ -50,13 +50,25 @@ val appModule = module {
         val cache = Cache(context.cacheDir, cacheSize.toLong())
         val builder = Builder()
             .cache(cache)
-        builder.networkInterceptors()
-            .add(cacheControlInterceptor)
+        builder.networkInterceptors().add(cacheControlInterceptor)
         val okHttpClient = builder.build()
 
-        return Retrofit.Builder().baseUrl("https://api.open-meteo.com").client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create()).build().create()
+        return Retrofit.Builder()
+            .baseUrl("https://api.open-meteo.com")
+            .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create()
+    }
+
+    fun provideGeocodingApi(): GeocodingApi {
+        return Retrofit.Builder()
+            .baseUrl("https://geocoding-api.open-meteo.com")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create()
     }
 
     singleOf(::provideWeatherApi)
+    singleOf(::provideGeocodingApi)
 }

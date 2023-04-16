@@ -15,14 +15,14 @@ const val URL = "v1/forecast?$HOURLY&$DAILY&$TIMEZONE&$FORECAST_DAYS"
 interface WeatherApi {
     @GET(URL)
     suspend fun getWeatherData(
-        @Query("latitude") lat: Double,
-        @Query("longitude") long: Double,
+        @Query("latitude") lat: Float,
+        @Query("longitude") long: Float,
     ): WeatherDto
 
     @Headers("Cache-Control: no-cache")
     @GET(URL)
     suspend fun getWeatherDataWithoutCache(
-        @Query("latitude") lat: Double,
-        @Query("longitude") long: Double,
+        @Query("latitude") lat: Float,
+        @Query("longitude") long: Float,
     ): WeatherDto
 }

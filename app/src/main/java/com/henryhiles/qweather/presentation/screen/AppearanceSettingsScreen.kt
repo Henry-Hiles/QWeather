@@ -20,14 +20,10 @@ import com.henryhiles.qweather.presentation.components.settings.SettingsSwitch
 import com.henryhiles.qweather.presentation.screenmodel.AppearancePreferencesScreenModel
 
 class AppearanceSettingsScreen : Screen {
-
     @Composable
-    override fun Content() = Screen()
-
-    @Composable
-    private fun Screen() {
+    override fun Content() {
         val screenModel: AppearancePreferencesScreenModel = getScreenModel()
-        val ctx = LocalContext.current
+        val context = LocalContext.current
 
         Scaffold(topBar = {
             SmallToolbar(
@@ -51,7 +47,7 @@ class AppearanceSettingsScreen : Screen {
                 SettingsItemChoice(
                     label = stringResource(R.string.appearance_theme),
                     pref = screenModel.prefs.theme,
-                    labelFactory = { ctx.getString(it.label) }
+                    labelFactory = { context.getString(it.label) }
                 ) { screenModel.prefs.theme = it }
 
             }

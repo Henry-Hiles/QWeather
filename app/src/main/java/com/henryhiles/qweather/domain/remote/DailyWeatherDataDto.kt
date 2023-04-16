@@ -10,15 +10,15 @@ data class DailyWeatherDataDto(
     @field:Json(name = "precipitation_probability_max")
     val precipitationProbabilityMax: List<Int>,
     @field:Json(name = "precipitation_sum")
-    val precipitationSum: List<Double>,
+    val precipitationSum: List<Float>,
     @field:Json(name = "windspeed_10m_max")
-    val windSpeedMax: List<Double>,
+    val windSpeedMax: List<Float>,
     @field:Json(name = "temperature_2m_max")
-    val temperatureMax: List<Double>,
+    val temperatureMax: List<Float>,
     @field:Json(name = "temperature_2m_min")
-    val temperatureMin: List<Double>,
+    val temperatureMin: List<Float>,
     @field:Json(name = "apparent_temperature_max")
-    val apparentTemperatureMax: List<Double>,
+    val apparentTemperatureMax: List<Float>,
     @field:Json(name = "apparent_temperature_min")
-    val apparentTemperatureMin: List<Double>
+    val apparentTemperatureMin: List<Float>
 )

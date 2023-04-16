@@ -19,7 +19,7 @@ data class DailyWeatherState(
     val expanded: Int? = null
 )
 
-class DailyWeatherScreenModel constructor(
+class DailyWeatherScreenModel(
     private val repository: WeatherRepository,
     private val locationTracker: LocationTracker,
 ) : ScreenModel {
@@ -34,8 +34,8 @@ class DailyWeatherScreenModel constructor(
             currentLocation?.let { location ->
                 state = when (val result =
                     repository.getDailyWeatherData(
-                        lat = location.latitude,
-                        long = location.longitude,
+                        lat = location.latitude.toFloat(),
+                        long = location.longitude.toFloat(),
                         cache = cache
                     )) {
                     is Resource.Success -> {
