@@ -1,6 +1,8 @@
 package com.henryhiles.qweather.presentation.components.weather
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -20,6 +22,7 @@ import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.weather.HourlyWeatherData
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WeatherCard(hour: HourlyWeatherData?, location: String, modifier: Modifier = Modifier) {
     hour?.let {
@@ -42,6 +45,10 @@ fun WeatherCard(hour: HourlyWeatherData?, location: String, modifier: Modifier =
                 ) {
                     Text(
                         text = location,
+                        modifier = Modifier
+                            .width(152.dp)
+                            .basicMarquee(delayMillis = 2000, initialDelayMillis = 1000),
+                        maxLines = 1,
                     )
                     Text(
                         text = "Today $formattedTime",
