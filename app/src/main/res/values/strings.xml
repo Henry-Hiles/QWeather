@@ -15,7 +15,7 @@
     <string name="selected">Selected</string>x
 
     <string name="help_screen">How do I use this screen?</string>
-    <string name="help_location_picker">Please either tap the auto-pick button or enter a location. Then tap the apply button in the bottom left corner.</string>
+    <string name="help_location_picker">Please search a location, then tap a result. Then tap the apply button in the bottom left corner.</string>
 
     <string name="appearance_theme">Theme</string>
     <string name="appearance_monet">Dynamic Theme</string>

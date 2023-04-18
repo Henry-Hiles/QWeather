@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
-import com.henryhiles.qweather.domain.location.LocationTracker
 import com.henryhiles.qweather.domain.manager.BasePreferenceManager
 import com.henryhiles.qweather.domain.remote.GeocodingLocationDto
 import com.henryhiles.qweather.domain.repository.GeocodingRepository
@@ -29,8 +28,6 @@ class LocationPreferenceManager(context: Context) :
 class LocationPickerScreenModel(
     val prefs: LocationPreferenceManager,
     private val repository: GeocodingRepository,
-    private val locationTracker: LocationTracker,
-    private val context: Context
 ) : ScreenModel {
     var state by mutableStateOf(LocationPickerState())
         private set

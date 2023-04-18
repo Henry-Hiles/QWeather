@@ -10,7 +10,6 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -41,19 +40,23 @@ class LocationPickerScreen : Screen {
         val navigator = LocalNavigator.current
         val context = LocalContext.current
 
-        Scaffold(floatingActionButton = {
-            FloatingActionButton(onClick = {
-                screenModel.prefs.location = location
-                screenModel.prefs.latitude = latitude
-                screenModel.prefs.longitude = longitude
-                navigator?.push(MainScreen())
+        Scaffold(modifier = Modifier.imePadding(),
+            floatingActionButton = {
+                FloatingActionButton(onClick = {
+                    if (location == "") isAboutOpen = true
+                    else {
+                        screenModel.prefs.location = location
+                        screenModel.prefs.latitude = latitude
+                        screenModel.prefs.longitude = longitude
+                        navigator?.push(MainScreen())
+                    }
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = stringResource(id = R.string.action_apply)
+                    )
+                }
             }) {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = stringResource(id = R.string.action_apply)
-                )
-            }
-        }) {
             screenModel.state.error?.let {
                 AlertDialog(
                     onDismissRequest = {},
@@ -107,26 +110,16 @@ class LocationPickerScreen : Screen {
                             value = locationSearch,
                             onValueChange = { locationSearch = it },
                             trailingIcon = {
-                                if (locationSearch == "")
-                                    IconButton(onClick = {
-
-                                    }) {
-                                        Icon(
-                                            imageVector = Icons.Outlined.MyLocation,
-                                            contentDescription = stringResource(id = R.string.location_auto_pick)
-                                        )
-                                    }
-                                else
-                                    IconButton(onClick = {
-                                        screenModel.loadGeolocationInfo(
-                                            locationSearch
-                                        )
-                                    }) {
-                                        Icon(
-                                            imageVector = Icons.Outlined.Search,
-                                            contentDescription = stringResource(id = R.string.action_search)
-                                        )
-                                    }
+                                IconButton(onClick = {
+                                    screenModel.loadGeolocationInfo(
+                                        locationSearch
+                                    )
+                                }, enabled = locationSearch != "") {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Search,
+                                        contentDescription = stringResource(id = R.string.action_search)
+                                    )
+                                }
                             },
                             modifier = Modifier.fillMaxWidth()
                         )
