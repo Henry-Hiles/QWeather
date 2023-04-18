@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.MyLocation
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
@@ -24,20 +25,35 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.henryhiles.qweather.R
+import com.henryhiles.qweather.presentation.components.navigation.SmallToolbar
 import com.henryhiles.qweather.presentation.screenmodel.LocationPickerScreenModel
+
 
 class LocationPickerScreen : Screen {
     @Composable
     override fun Content() {
         val screenModel: LocationPickerScreenModel = getScreenModel()
-        var latitude by remember { mutableStateOf(0f) }
-        var longitude by remember { mutableStateOf(0f) }
-        var location by remember { mutableStateOf("") }
+        var latitude by remember { mutableStateOf(screenModel.prefs.latitude) }
+        var longitude by remember { mutableStateOf(screenModel.prefs.longitude) }
+        var location by remember { mutableStateOf(screenModel.prefs.location) }
         var locationSearch by remember { mutableStateOf("") }
+        var isAboutOpen by remember { mutableStateOf(false) }
         val navigator = LocalNavigator.current
         val context = LocalContext.current
 
-        Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(floatingActionButton = {
+            FloatingActionButton(onClick = {
+                screenModel.prefs.location = location
+                screenModel.prefs.latitude = latitude
+                screenModel.prefs.longitude = longitude
+                navigator?.push(MainScreen())
+            }) {
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = stringResource(id = R.string.action_apply)
+                )
+            }
+        }) {
             screenModel.state.error?.let {
                 AlertDialog(
                     onDismissRequest = {},
@@ -51,24 +67,31 @@ class LocationPickerScreen : Screen {
                         }
                     },
                 )
-            } ?: AlertDialog(
-                onDismissRequest = {},
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            screenModel.prefs.location = location
-                            screenModel.prefs.latitude = latitude
-                            screenModel.prefs.longitude = longitude
-                            navigator?.push(MainScreen())
-                        },
-                        enabled = location != ""
-                    ) {
-                        Text(text = stringResource(id = R.string.action_apply))
-                    }
-                },
-                title = { Text(text = stringResource(id = R.string.location_choose)) },
-                text = {
-                    Column {
+            } ?: kotlin.run {
+                Column {
+                    SmallToolbar(
+                        title = { Text(text = stringResource(id = R.string.location_choose)) },
+                        actions = {
+                            IconButton(
+                                onClick = { isAboutOpen = true }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = stringResource(id = R.string.help_screen)
+                                )
+                            }
+                        })
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        if (isAboutOpen) AlertDialog(
+                            title = { Text(text = stringResource(id = R.string.location_choose)) },
+                            text = { Text(text = stringResource(id = R.string.help_location_picker)) },
+                            onDismissRequest = { isAboutOpen = false },
+                            confirmButton = {
+                                TextButton(
+                                    onClick = { isAboutOpen = false }) {
+                                    Text(text = stringResource(id = R.string.action_confirm))
+                                }
+                            })
+
                         OutlinedTextField(
                             label = { Text(text = stringResource(id = R.string.location)) },
                             keyboardOptions = KeyboardOptions(
@@ -82,9 +105,7 @@ class LocationPickerScreen : Screen {
                             }),
                             maxLines = 1,
                             value = locationSearch,
-                            onValueChange = {
-                                locationSearch = it
-                            },
+                            onValueChange = { locationSearch = it },
                             trailingIcon = {
                                 if (locationSearch == "")
                                     IconButton(onClick = {
@@ -106,20 +127,17 @@ class LocationPickerScreen : Screen {
                                             contentDescription = stringResource(id = R.string.action_search)
                                         )
                                     }
-                            }
+                            },
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text(text = "${screenModel.state.locations != null}")
-                        screenModel.state.locations?.let {
-                            Text(
-                                text = "hi"
-                            )
-                        }
 
                         if (screenModel.state.isLoading) CircularProgressIndicator(
-                            modifier = Modifier.align(
-                                Alignment.CenterHorizontally
-                            )
+                            modifier = Modifier
+                                .align(
+                                    Alignment.CenterHorizontally
+                                )
+                                .padding(16.dp)
                         ) else screenModel.state.locations?.let {
                             LazyColumn {
                                 items(it) {
@@ -161,7 +179,7 @@ class LocationPickerScreen : Screen {
                         }
                     }
                 }
-            )
+            }
         }
     }
 }

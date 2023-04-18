@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
@@ -22,7 +21,7 @@ import com.henryhiles.qweather.domain.weather.HourlyWeatherData
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun WeatherCard(hour: HourlyWeatherData?, modifier: Modifier = Modifier) {
+fun WeatherCard(hour: HourlyWeatherData?, location: String, modifier: Modifier = Modifier) {
     hour?.let {
         val formattedTime = remember(it) {
             it.time.format(DateTimeFormatter.ofPattern("HH:mm"))
@@ -37,10 +36,17 @@ fun WeatherCard(hour: HourlyWeatherData?, modifier: Modifier = Modifier) {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Today $formattedTime",
-                    modifier = Modifier.align(Alignment.End), color = Color.White
-                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = location,
+                    )
+                    Text(
+                        text = "Today $formattedTime",
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
                     painter = painterResource(id = it.weatherType.iconRes),

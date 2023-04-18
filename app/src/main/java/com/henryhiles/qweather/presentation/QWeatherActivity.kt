@@ -37,7 +37,11 @@ class QWeatherActivity : ComponentActivity() {
             WeatherAppTheme(darkTheme = isDark, monet = prefs.monet) {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     Text(text = location.location)
-                    Navigator(screen = if (isLocationSet) MainScreen() else LocationPickerScreen()) {
+                    Navigator(
+                        screen = if (isLocationSet) MainScreen() else LocationPickerScreen(),
+                        onBackPressed = {
+                            it !is MainScreen
+                        }) {
                         SlideTransition(it)
                     }
                 }

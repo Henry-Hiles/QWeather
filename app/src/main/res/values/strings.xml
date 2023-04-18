@@ -12,14 +12,19 @@
     <string name="action_reload">Reload</string>
     <string name="action_try_again">Try Again</string>
 
-    <string name="selected">Selected</string>
+    <string name="selected">Selected</string>x
+
+    <string name="help_screen">How do I use this screen?</string>
+    <string name="help_location_picker">Please either tap the auto-pick button or enter a location. Then tap the apply button in the bottom left corner.</string>
 
     <string name="appearance_theme">Theme</string>
     <string name="appearance_monet">Dynamic Theme</string>
     <string name="appearance_monet_description">Available on Android 12+</string>
 
     <string name="settings_appearance">Appearance</string>
-    <string name="settings_appearance_description">Theme, code style</string>
+    <string name="settings_appearance_description">Theme, dynamic colors</string>
+    <string name="settings_location">Location</string>
+    <string name="settings_location_description">Location to fetch data from</string>
 
     <string name="location">Location</string>
     <string name="location_string">%1$s, %2$s, %3$s</string>

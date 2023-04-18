@@ -1,6 +1,5 @@
 package com.henryhiles.qweather.presentation.tabs
 
-import android.Manifest
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
@@ -17,8 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberPermissionState
 import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.weather.WeatherCard
@@ -41,18 +38,12 @@ object TodayTab : NavigationTab {
             }
         }
 
-    @OptIn(ExperimentalPermissionsApi::class)
     @Composable
     override fun Content() {
         val weatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
-        val permissionsState = rememberPermissionState(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-        ) {
-            weatherViewModel.loadWeatherInfo()
-        }
 
-        LaunchedEffect(key1 = true) {
-            permissionsState.launchPermissionRequest()
+        LaunchedEffect(key1 = false) {
+            weatherViewModel.loadWeatherInfo()
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
@@ -90,7 +81,8 @@ object TodayTab : NavigationTab {
                         WeatherCard(
                             hour = weatherViewModel.state.selected?.let {
                                 weatherViewModel.state.hourlyWeatherInfo?.weatherData?.get(it)
-                            } ?: weatherViewModel.state.hourlyWeatherInfo?.currentWeatherData
+                            } ?: weatherViewModel.state.hourlyWeatherInfo?.currentWeatherData,
+                            location = weatherViewModel.location.location
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         WeatherForecast(
