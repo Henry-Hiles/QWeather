@@ -69,8 +69,8 @@ android {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.10.0")
-    implementation("androidx.compose.material3:material3:1.1.0-beta02")
-    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation("androidx.compose.material3:material3:1.1.0-rc01")
+    implementation("androidx.activity:activity-compose:1.7.1")
     implementation("androidx.core:core-ktx:1.10.0")
 
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
