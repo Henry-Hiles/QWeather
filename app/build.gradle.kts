@@ -8,6 +8,15 @@ android {
     namespace = "com.henryhiles.qweather"
     compileSdk = 33
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("${rootDir}/keystore.jks")
+            keyPassword = System.getenv("KEY_PASSWORD")
+            keyAlias = "key0"
+            storePassword = System.getenv("STORE_PASSWORD")
+        }
+    }
+
     defaultConfig {
         applicationId = "com.henryhiles.qweather"
         minSdk = 30
@@ -24,6 +33,8 @@ android {
     buildTypes {
         named("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             setProguardFiles(
                 listOf(
                     getDefaultProguardFile("proguard-android-optimize.txt"),
