@@ -8,11 +8,12 @@
     <string name="action_apply">Apply</string>
     <string name="action_confirm">Confirm</string>
     <string name="action_open_about">About</string>
+    <string name="action_delete">Delete</string>
     <string name="action_search">Search</string>
     <string name="action_reload">Reload</string>
     <string name="action_try_again">Try Again</string>
 
-    <string name="selected">Selected</string>x
+    <string name="selected">Selected</string>
 
     <string name="help_screen">How do I use this screen?</string>
     <string name="help_location_picker">Please search a location, then tap a result. Then tap the apply button in the bottom left corner.</string>
@@ -27,16 +28,21 @@
     <string name="settings_location_description">Location to fetch data from</string>
 
     <string name="location">Location</string>
-    <string name="location_string">%1$s, %2$s, %3$s</string>
-    <string name="location_auto_pick">Auto-pick location</string>
+    <string name="locations">Locations</string>
+    <string name="location_add">Add Location</string>
+    <string name="location_picker_open">Open location picker</string>
     <string name="location_choose">Choose a Location</string>
 
     <string name="theme_system">System</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
 
+    <string name="weather_high">High: %1$d°C</string>
+    <string name="weather_low">Low: %1$d°C</string>
+    <string name="weather_precipitation">Precipitation: %1$d&#65130;</string>
+
     <string name="unknown">Unknown</string>
 
     <string name="error">An error occurred</string>
-    <string name="error_location">Couldn\'t retrieve location. Make sure to grant permission and enable GPS.</string>
+    <string name="error_location">"Couldn't retrieve location. Make sure to grant permission and enable GPS."</string>
 </resources>

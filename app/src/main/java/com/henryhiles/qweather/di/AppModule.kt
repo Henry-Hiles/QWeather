@@ -5,13 +5,15 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.henryhiles.qweather.domain.remote.GeocodingApi
 import com.henryhiles.qweather.domain.remote.WeatherApi
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
 import okhttp3.Cache
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient.Builder
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
 private fun isNetworkAvailable(context: Context): Boolean {
@@ -28,6 +30,9 @@ private fun isNetworkAvailable(context: Context): Boolean {
         else -> false
     }
 }
+
+private val contentType = "application/json".toMediaType()
+private val json = Json { ignoreUnknownKeys = true }
 
 val appModule = module {
     fun provideWeatherApi(context: Context): WeatherApi {
@@ -56,7 +61,7 @@ val appModule = module {
         return Retrofit.Builder()
             .baseUrl("https://api.open-meteo.com")
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
             .create()
     }
@@ -64,7 +69,7 @@ val appModule = module {
     fun provideGeocodingApi(): GeocodingApi {
         return Retrofit.Builder()
             .baseUrl("https://geocoding-api.open-meteo.com")
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory(contentType))
             .build()
             .create()
     }

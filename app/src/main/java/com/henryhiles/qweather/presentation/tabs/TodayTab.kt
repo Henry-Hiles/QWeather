@@ -20,6 +20,7 @@ import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.weather.WeatherCard
 import com.henryhiles.qweather.presentation.components.weather.WeatherForecast
+import com.henryhiles.qweather.presentation.components.weather.WeatherToday
 import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherScreenModel
 
 object TodayTab : NavigationTab {
@@ -77,6 +78,7 @@ object TodayTab : NavigationTab {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
+                            .padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         WeatherCard(
                             hour = weatherViewModel.state.selected?.let {
@@ -84,7 +86,7 @@ object TodayTab : NavigationTab {
                             } ?: weatherViewModel.state.hourlyWeatherInfo?.currentWeatherData,
                             location = weatherViewModel.location.location
                         )
-                        Spacer(modifier = Modifier.height(16.dp))
+                        WeatherToday(state = weatherViewModel.state)
                         WeatherForecast(
                             state = weatherViewModel.state
                         ) { weatherViewModel.setSelected(it) }

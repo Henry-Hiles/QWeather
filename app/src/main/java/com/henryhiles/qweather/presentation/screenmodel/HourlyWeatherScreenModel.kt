@@ -19,10 +19,12 @@ data class HourlyWeatherState(
 
 class HourlyWeatherScreenModel(
     private val repository: WeatherRepository,
-    val location: LocationPreferenceManager,
+    locationPreferenceManager: LocationPreferenceManager,
 ) : ScreenModel {
     var state by mutableStateOf(HourlyWeatherState())
         private set
+
+    val location = locationPreferenceManager.getSelectedLocation()
 
     fun loadWeatherInfo(cache: Boolean = true) {
         coroutineScope.launch {

@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
-fun HourlyWeatherDataDto.toHourlyWeatherDataMap(): List<HourlyWeatherData> {
+fun HourlyWeatherDataDto.toHourlyWeatherData(): List<HourlyWeatherData> {
     return time.subList(0, 24).mapIndexed { index, time ->
         HourlyWeatherData(
             time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
@@ -20,12 +20,12 @@ fun HourlyWeatherDataDto.toHourlyWeatherDataMap(): List<HourlyWeatherData> {
             apparentTemperature = apparentTemperature[index].roundToInt(),
             windSpeed = windSpeed[index].roundToInt(),
             precipitationProbability = precipitationProbability.getOrNull(index),
-            weatherType = WeatherType.fromWMO(weatherCode[index])
+            weatherType = WeatherType.fromWMO(weatherCode[index]),
         )
     }
 }
 
-fun DailyWeatherDataDto.toDailyWeatherDataMap(): List<DailyWeatherData> {
+fun DailyWeatherDataDto.toDailyWeatherData(): List<DailyWeatherData> {
     return date.mapIndexed { index, date ->
         DailyWeatherData(
             date = LocalDate.parse(date, DateTimeFormatter.ISO_DATE),
@@ -41,13 +41,16 @@ fun DailyWeatherDataDto.toDailyWeatherDataMap(): List<DailyWeatherData> {
 }
 
 fun WeatherDto.toHourlyWeatherInfo(): HourlyWeatherInfo {
-    val weatherDataMap = hourlyWeatherData.toHourlyWeatherDataMap()
+    val weatherDataMap = hourlyWeatherData.toHourlyWeatherData()
     val now = LocalDateTime.now()
     val currentWeatherData = weatherDataMap.find {
         it.time.hour == now.hour
     }
     return HourlyWeatherInfo(
         weatherData = weatherDataMap,
-        currentWeatherData = currentWeatherData
+        currentWeatherData = currentWeatherData,
+        highTemperature = weatherDataMap.maxBy { it.temperature }.temperature,
+        lowTemperature = weatherDataMap.minBy { it.temperature }.temperature,
+        precipitationProbability = weatherDataMap.maxBy { it.precipitationProbability ?: 0}.precipitationProbability
     )
 }

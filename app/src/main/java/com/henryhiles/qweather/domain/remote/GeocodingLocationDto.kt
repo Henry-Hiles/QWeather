@@ -1,16 +1,15 @@
 package com.henryhiles.qweather.domain.remote
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GeocodingLocationDto(
-    @field:Json(name = "name")
+    @SerialName("name")
     val city: String,
-    @field:Json(name = "country")
     val country: String,
-    @field:Json(name = "admin1")
+    @SerialName("admin1")
     val admin: String,
-    @field:Json(name = "latitude")
     val latitude: Float,
-    @field:Json(name = "longitude")
     val longitude: Float
 )

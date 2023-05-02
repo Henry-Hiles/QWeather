@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 
 @Composable
 inline fun <reified E : Enum<E>> EnumRadioController(
@@ -19,7 +18,6 @@ inline fun <reified E : Enum<E>> EnumRadioController(
     crossinline onChoiceSelected: (E) -> Unit
 ) {
     var choice by remember { mutableStateOf(default) }
-    val ctx = LocalContext.current
 
     Column {
         enumValues<E>().forEach {

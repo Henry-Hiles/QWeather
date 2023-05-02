@@ -1,8 +1,8 @@
 package com.henryhiles.qweather.domain.remote
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GeocodingDto(
-    @field:Json(name = "results")
-    val results: List<GeocodingLocationDto>
+    val results: List<GeocodingLocationDto> = listOf()
 )

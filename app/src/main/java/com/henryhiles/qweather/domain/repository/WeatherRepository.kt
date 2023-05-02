@@ -1,6 +1,6 @@
 package com.henryhiles.qweather.domain.repository
 
-import com.henryhiles.qweather.domain.mappers.toDailyWeatherDataMap
+import com.henryhiles.qweather.domain.mappers.toDailyWeatherData
 import com.henryhiles.qweather.domain.mappers.toHourlyWeatherInfo
 import com.henryhiles.qweather.domain.remote.WeatherApi
 import com.henryhiles.qweather.domain.util.Resource
@@ -43,7 +43,7 @@ class WeatherRepository(private val api: WeatherApi) {
                 ) else api.getWeatherDataWithoutCache(
                     lat = lat,
                     long = long
-                )).dailyWeatherData.toDailyWeatherDataMap()
+                )).dailyWeatherData.toDailyWeatherData()
             )
         } catch (e: Exception) {
             e.printStackTrace()

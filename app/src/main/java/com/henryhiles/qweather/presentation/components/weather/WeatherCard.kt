@@ -6,19 +6,18 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.outlined.Thermostat
+import androidx.compose.material.icons.outlined.WaterDrop
+import androidx.compose.material.icons.outlined.WindPower
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.weather.HourlyWeatherData
 import java.time.format.DateTimeFormatter
 
@@ -31,7 +30,7 @@ fun WeatherCard(hour: HourlyWeatherData?, location: String, modifier: Modifier =
         }
         Card(
             shape = RoundedCornerShape(8.dp),
-            modifier = modifier.padding(16.dp)
+            modifier = modifier
         ) {
             Column(
                 modifier = Modifier
@@ -58,7 +57,7 @@ fun WeatherCard(hour: HourlyWeatherData?, location: String, modifier: Modifier =
                 Image(
                     painter = painterResource(id = it.weatherType.iconRes),
                     contentDescription = "Image of ${it.weatherType.weatherDesc}",
-                    modifier = Modifier.width(200.dp)
+                    modifier = Modifier.height(152.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = "${it.temperature}°C", fontSize = 50.sp)
@@ -72,19 +71,19 @@ fun WeatherCard(hour: HourlyWeatherData?, location: String, modifier: Modifier =
                     WeatherDataDisplay(
                         value = it.apparentTemperature,
                         unit = "°C",
-                        icon = Icons.Default.Thermostat,
+                        icon = Icons.Outlined.Thermostat,
                         description = "Feels like",
                     )
                     WeatherDataDisplay(
                         value = it.precipitationProbability,
                         unit = "%",
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_drop),
+                        icon = Icons.Outlined.WaterDrop,
                         description = "Chance of precipitation"
                     )
                     WeatherDataDisplay(
                         value = it.windSpeed,
                         unit = "km/h",
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
+                        icon = Icons.Outlined.WindPower,
                         description = "Wind Speed",
                     )
                 }

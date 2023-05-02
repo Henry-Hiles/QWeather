@@ -7,7 +7,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
@@ -32,11 +31,10 @@ class QWeatherActivity : ComponentActivity() {
                 Theme.LIGHT -> false
                 Theme.DARK -> true
             }
-            val isLocationSet = location.location != ""
+            val isLocationSet = location.getLocations().isNotEmpty()
 
             WeatherAppTheme(darkTheme = isDark, monet = prefs.monet) {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    Text(text = location.location)
                     Navigator(
                         screen = if (isLocationSet) MainScreen() else LocationPickerScreen(),
                         onBackPressed = {

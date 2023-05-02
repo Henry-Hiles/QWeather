@@ -1,18 +1,19 @@
 package com.henryhiles.qweather.domain.remote
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class HourlyWeatherDataDto(
-    @field:Json(name = "time")
     val time: List<String>,
-    @field:Json(name = "temperature_2m")
+    @SerialName("temperature_2m")
     val temperature: List<Float>,
-    @field:Json(name = "apparent_temperature")
+    @SerialName("apparent_temperature")
     val apparentTemperature: List<Float>,
-    @field:Json(name = "weathercode")
+    @SerialName("weathercode")
     val weatherCode: List<Int>,
-    @field:Json(name = "precipitation_probability")
-    val precipitationProbability: List<Int>,
-    @field:Json(name = "windspeed_10m")
+    @SerialName("precipitation_probability")
+    val precipitationProbability: List<Int?>,
+    @SerialName("windspeed_10m")
     val windSpeed: List<Float>,
 )

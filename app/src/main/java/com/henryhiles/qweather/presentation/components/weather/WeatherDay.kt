@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Water
 import androidx.compose.material.icons.outlined.WaterDrop
+import androidx.compose.material.icons.outlined.WindPower
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,11 +16,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import java.time.format.DateTimeFormatter
 
@@ -71,7 +69,7 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData, expanded: Boolean, onExpand: 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp, 0.dp, 16.dp, 16.dp),
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 WeatherDataDisplay(
@@ -80,7 +78,6 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData, expanded: Boolean, onExpand: 
                     icon = Icons.Outlined.WaterDrop,
                     description = "Chance of rain"
                 )
-
                 Spacer(modifier = Modifier.width(16.dp))
                 WeatherDataDisplay(
                     value = dailyWeatherData.windSpeedMax,
@@ -88,12 +85,11 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData, expanded: Boolean, onExpand: 
                     icon = Icons.Outlined.Water,
                     description = "Precipitation Amount"
                 )
-
                 Spacer(modifier = Modifier.width(16.dp))
                 WeatherDataDisplay(
                     value = dailyWeatherData.windSpeedMax,
                     unit = "km/h",
-                    icon = ImageVector.vectorResource(id = R.drawable.ic_wind),
+                    icon = Icons.Outlined.WindPower,
                     description = "Wind Speed"
                 )
             }

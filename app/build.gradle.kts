@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    kotlin("plugin.serialization") version "1.8.10"
 }
 
 android {
@@ -72,7 +73,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.0-rc01")
     implementation("androidx.activity:activity-compose:1.7.1")
     implementation("androidx.core:core-ktx:1.10.0")
-
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 
@@ -110,7 +111,7 @@ dependencies {
     // Retrofit
     val retrofitVersion = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 
     // Accompanist
     val accompanistVersion = "0.30.0"

@@ -15,7 +15,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -24,6 +23,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.henryhiles.qweather.R
+import com.henryhiles.qweather.domain.geocoding.GeocodingData
 import com.henryhiles.qweather.presentation.components.navigation.SmallToolbar
 import com.henryhiles.qweather.presentation.screenmodel.LocationPickerScreenModel
 
@@ -32,24 +32,20 @@ class LocationPickerScreen : Screen {
     @Composable
     override fun Content() {
         val screenModel: LocationPickerScreenModel = getScreenModel()
-        var latitude by remember { mutableStateOf(screenModel.prefs.latitude) }
-        var longitude by remember { mutableStateOf(screenModel.prefs.longitude) }
-        var location by remember { mutableStateOf(screenModel.prefs.location) }
+        var location by remember {
+            mutableStateOf<GeocodingData?>(null)
+        }
         var locationSearch by remember { mutableStateOf("") }
         var isAboutOpen by remember { mutableStateOf(false) }
         val navigator = LocalNavigator.current
-        val context = LocalContext.current
 
         Scaffold(modifier = Modifier.imePadding(),
             floatingActionButton = {
                 FloatingActionButton(onClick = {
-                    if (location == "") isAboutOpen = true
-                    else {
-                        screenModel.prefs.location = location
-                        screenModel.prefs.latitude = latitude
-                        screenModel.prefs.longitude = longitude
+                    location?.let {
+                        screenModel.prefs.addLocation(it)
                         navigator?.push(MainScreen())
-                    }
+                    } ?: kotlin.run { isAboutOpen = true }
                 }) {
                     Icon(
                         imageVector = Icons.Default.Check,
@@ -57,32 +53,32 @@ class LocationPickerScreen : Screen {
                     )
                 }
             }) {
-            screenModel.state.error?.let {
-                AlertDialog(
-                    onDismissRequest = {},
-                    confirmButton = {},
-                    title = { Text(text = stringResource(id = R.string.error)) },
-                    text = {
-                        SelectionContainer {
-                            Text(
-                                text = it,
+            Column {
+                SmallToolbar(
+                    title = { Text(text = stringResource(id = R.string.location_choose)) },
+                    actions = {
+                        IconButton(
+                            onClick = { isAboutOpen = true }) {
+                            Icon(
+                                imageVector = Icons.Outlined.Info,
+                                contentDescription = stringResource(id = R.string.help_screen)
                             )
                         }
-                    },
-                )
-            } ?: kotlin.run {
-                Column {
-                    SmallToolbar(
-                        title = { Text(text = stringResource(id = R.string.location_choose)) },
-                        actions = {
-                            IconButton(
-                                onClick = { isAboutOpen = true }) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Info,
-                                    contentDescription = stringResource(id = R.string.help_screen)
+                    })
+                screenModel.state.error?.let {
+                    AlertDialog(
+                        onDismissRequest = {},
+                        confirmButton = {},
+                        title = { Text(text = stringResource(id = R.string.error)) },
+                        text = {
+                            SelectionContainer {
+                                Text(
+                                    text = it,
                                 )
                             }
-                        })
+                        },
+                    )
+                } ?: kotlin.run {
                     Column(modifier = Modifier.padding(16.dp)) {
                         if (isAboutOpen) AlertDialog(
                             title = { Text(text = stringResource(id = R.string.location_choose)) },
@@ -134,27 +130,16 @@ class LocationPickerScreen : Screen {
                         ) else screenModel.state.locations?.let {
                             LazyColumn {
                                 items(it) {
-                                    val locationText by remember {
-                                        mutableStateOf(
-                                            context.getString(
-                                                R.string.location_string,
-                                                it.city, it.admin, it.country
-                                            )
-                                        )
-                                    }
+                                    val selected = it == location
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    Card(modifier = Modifier.clickable {
-                                        location = locationText
-                                        longitude = it.longitude
-                                        latitude = it.latitude
-                                    }) {
+                                    Card(modifier = Modifier.clickable { location = it }) {
                                         Row(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .padding(16.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            if (location == locationText) {
+                                            if (selected) {
                                                 Icon(
                                                     imageVector = Icons.Default.Check,
                                                     contentDescription = stringResource(
@@ -164,7 +149,7 @@ class LocationPickerScreen : Screen {
                                                 )
                                                 Spacer(modifier = Modifier.width(8.dp))
                                             }
-                                            Text(text = locationText)
+                                            Text(text = it.location)
                                         }
                                     }
                                 }

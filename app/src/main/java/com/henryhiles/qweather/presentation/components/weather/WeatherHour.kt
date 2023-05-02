@@ -37,13 +37,11 @@ fun WeatherHour(
                 horizontalAlignment = CenterHorizontally
             ) {
                 Text(text = formattedTime)
-
                 Image(
                     painter = painterResource(id = it.weatherType.iconRes),
                     contentDescription = "Image of ${it.weatherType.weatherDesc}",
                     modifier = Modifier.width(40.dp)
                 )
-
                 Text(text = "${it.temperature}°C")
             }
         }

@@ -41,9 +41,7 @@ abstract class BasePreferenceManager(
         getter: (key: String, defaultValue: T) -> T,
         private val setter: (key: String, newValue: T) -> Unit
     ) {
-        @Suppress("RedundantSetter")
-        var value by mutableStateOf(getter(key, defaultValue))
-            private set
+        private var value by mutableStateOf(getter(key, defaultValue))
 
         operator fun getValue(thisRef: Any?, property: KProperty<*>) = value
         operator fun setValue(thisRef: Any?, property: KProperty<*>, newValue: T) {
@@ -101,7 +99,6 @@ abstract class BasePreferenceManager(
         getter = ::getColor,
         setter = ::putColor
     )
-
 
     protected inline fun <reified E : Enum<E>> enumPreference(
         key: String,
