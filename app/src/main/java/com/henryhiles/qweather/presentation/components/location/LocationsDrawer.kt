@@ -26,7 +26,7 @@ fun LocationsDrawer(drawerState: DrawerState, children: @Composable () -> Unit) 
     ModalNavigationDrawer(drawerContent = {
         ModalDrawerSheet {
             Column(modifier = Modifier.padding(16.dp)) {
-                val locations = location.getLocations()
+                val locations = location.locations
 
                 Text(
                     text = stringResource(id = R.string.locations),
@@ -36,10 +36,10 @@ fun LocationsDrawer(drawerState: DrawerState, children: @Composable () -> Unit) 
                 locations.forEachIndexed { index, data ->
                     NavigationDrawerItem(
                         label = { Text(text = data.location) },
-                        selected = index == location.selectedLocation,
-                        onClick = { location.selectedLocation = index },
+                        selected = index == location.selectedIndex,
+                        onClick = { location.selectedIndex = index },
                         badge = {
-                            IconButton(onClick = { location.removeLocation(data) }) {
+                            IconButton(onClick = { location.locations -= data }) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
                                     contentDescription = stringResource(

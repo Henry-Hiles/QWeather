@@ -6,6 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.content.edit
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import kotlin.reflect.KProperty
 
 abstract class BasePreferenceManager(
@@ -18,12 +21,15 @@ abstract class BasePreferenceManager(
     private fun getInt(key: String, defaultValue: Int) = prefs.getInt(key, defaultValue)
     private fun getFloat(key: String, defaultValue: Float) = prefs.getFloat(key, defaultValue)
     private fun getColor(key: String, defaultValue: Color): Color {
-        val c = prefs.getString(key, null)
-        return if (c == null) defaultValue else Color(c.toULong())
+        val color = prefs.getString(key, null)
+        return if (color == null) defaultValue else Color(color.toULong())
     }
 
     protected inline fun <reified E : Enum<E>> getEnum(key: String, defaultValue: E) =
         enumValueOf<E>(getString(key, defaultValue.name))
+
+    protected inline fun <reified T> getJson(key: String, defaultValue: T) =
+        Json.decodeFromString<T>(getString(key, null)) ?: defaultValue
 
     protected fun putString(key: String, value: String?) = prefs.edit { putString(key, value) }
     private fun putBoolean(key: String, value: Boolean) = prefs.edit { putBoolean(key, value) }
@@ -34,6 +40,9 @@ abstract class BasePreferenceManager(
 
     protected inline fun <reified E : Enum<E>> putEnum(key: String, value: E) =
         putString(key, value.name)
+
+    protected inline fun <reified T> putJson(key: String, value: T) =
+        putString(key, Json.encodeToString(value))
 
     protected class Preference<T>(
         private val key: String,
@@ -108,5 +117,15 @@ abstract class BasePreferenceManager(
         defaultValue = defaultValue,
         getter = ::getEnum,
         setter = ::putEnum
+    )
+
+    protected inline fun <reified T> jsonPreference(
+        key: String,
+        defaultValue: T
+    ) = Preference(
+        key = key,
+        defaultValue = defaultValue,
+        getter = ::getJson,
+        setter = ::putJson
     )
 }

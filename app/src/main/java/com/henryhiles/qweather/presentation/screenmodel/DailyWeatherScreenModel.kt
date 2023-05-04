@@ -23,7 +23,7 @@ class DailyWeatherScreenModel(
 ) : ScreenModel {
     var state by mutableStateOf(DailyWeatherState())
         private set
-    val location = locationPreferenceManager.getSelectedLocation()
+    val location = locationPreferenceManager.locations[locationPreferenceManager.selectedIndex]
 
     fun loadWeatherInfo(cache: Boolean = true) {
         coroutineScope.launch {

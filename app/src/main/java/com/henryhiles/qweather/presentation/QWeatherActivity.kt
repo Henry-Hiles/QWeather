@@ -31,7 +31,8 @@ class QWeatherActivity : ComponentActivity() {
                 Theme.LIGHT -> false
                 Theme.DARK -> true
             }
-            val isLocationSet = location.getLocations().isNotEmpty()
+            val locations = location.locations
+            val isLocationSet = locations.isNotEmpty()
 
             WeatherAppTheme(darkTheme = isDark, monet = prefs.monet) {
                 Surface(modifier = Modifier.fillMaxSize()) {

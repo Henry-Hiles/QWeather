@@ -11,9 +11,6 @@ import com.henryhiles.qweather.domain.manager.BasePreferenceManager
 import com.henryhiles.qweather.domain.repository.GeocodingRepository
 import com.henryhiles.qweather.domain.util.Resource
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 data class LocationPickerState(
     val locations: List<GeocodingData>? = null,
@@ -23,29 +20,11 @@ data class LocationPickerState(
 
 class LocationPreferenceManager(context: Context) :
     BasePreferenceManager(context.getSharedPreferences("location", Context.MODE_PRIVATE)) {
-    private var locations by stringPreference(
+    var locations by jsonPreference<List<GeocodingData>>(
         "locations",
-        Json.encodeToString(value = listOf<GeocodingData>())
+        listOf()
     )
-    var selectedLocation by intPreference("selected_location", 0)
-
-    fun getSelectedLocation(): GeocodingData {
-        return getLocations()[selectedLocation]
-    }
-
-    fun getLocations(): List<GeocodingData> {
-        return Json.decodeFromString(string = locations)
-    }
-
-    fun addLocation(location: GeocodingData) {
-        val currentLocations = getLocations()
-        locations = Json.encodeToString(value = currentLocations + location)
-    }
-
-    fun removeLocation(location: GeocodingData) {
-        val currentLocations = getLocations()
-        locations = Json.encodeToString(value = currentLocations - location)
-    }
+    var selectedIndex by intPreference("selected_location", 0)
 }
 
 class LocationPickerScreenModel(

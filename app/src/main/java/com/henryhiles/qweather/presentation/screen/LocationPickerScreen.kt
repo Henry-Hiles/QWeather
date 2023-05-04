@@ -43,7 +43,7 @@ class LocationPickerScreen : Screen {
             floatingActionButton = {
                 FloatingActionButton(onClick = {
                     location?.let {
-                        screenModel.prefs.addLocation(it)
+                        screenModel.prefs.locations += it
                         navigator?.push(MainScreen())
                     } ?: kotlin.run { isAboutOpen = true }
                 }) {
