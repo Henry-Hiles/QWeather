@@ -19,53 +19,68 @@ import com.henryhiles.qweather.presentation.screenmodel.LocationPreferenceManage
 import org.koin.androidx.compose.get
 
 @Composable
-fun LocationsDrawer(drawerState: DrawerState, children: @Composable () -> Unit) {
-    val location: LocationPreferenceManager = get()
+fun LocationsDrawer(
+    drawerState: DrawerState,
+    onClose: () -> Unit,
+    children: @Composable () -> Unit
+) {
+    val locationPreferenceManager: LocationPreferenceManager = get()
     val navigator = LocalNavigator.current?.parent
 
-    ModalNavigationDrawer(drawerContent = {
-        ModalDrawerSheet {
-            Column(modifier = Modifier.padding(16.dp)) {
-                val locations = location.locations
+    ModalNavigationDrawer(
+        drawerContent = {
+            ModalDrawerSheet {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    val locations = locationPreferenceManager.locations
 
-                Text(
-                    text = stringResource(id = R.string.locations),
-                    style = MaterialTheme.typography.headlineSmall
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                locations.forEachIndexed { index, data ->
-                    NavigationDrawerItem(
-                        label = { Text(text = data.location) },
-                        selected = index == location.selectedIndex,
-                        onClick = { location.selectedIndex = index },
-                        badge = {
-                            IconButton(onClick = { location.locations -= data }) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = stringResource(
-                                        id = R.string.action_delete
+                    Text(
+                        text = stringResource(id = R.string.locations),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                    locations.forEachIndexed { index, data ->
+                        val selected = index == locationPreferenceManager.selectedIndex
+                        NavigationDrawerItem(
+                            label = { Text(text = data.location) },
+                            selected = selected,
+                            onClick = {
+                                onClose()
+                                locationPreferenceManager.selectedIndex = index
+                            },
+                            badge = {
+                                IconButton(onClick = {
+                                    locationPreferenceManager.locations -= data
+                                    if (selected) locationPreferenceManager.selectedIndex = 0
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = stringResource(
+                                            id = R.string.action_delete
+                                        )
                                     )
-                                )
+                                }
                             }
-                        }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+                    NavigationDrawerItem(
+                        label = { Text(text = stringResource(id = R.string.location_add)) },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = stringResource(id = R.string.location_add)
+                            )
+                        },
+                        selected = true,
+                        onClick = { navigator?.push(LocationPickerScreen()) },
                     )
                 }
-
-                Spacer(modifier = Modifier.weight(1f))
-                NavigationDrawerItem(
-                    label = { Text(text = stringResource(id = R.string.location_add)) },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = stringResource(id = R.string.location_add)
-                        )
-                    },
-                    selected = true,
-                    onClick = { navigator?.push(LocationPickerScreen()) },
-                )
             }
-        }
-    }, drawerState = drawerState) {
+        },
+        drawerState = drawerState
+    ) {
         children()
     }
 }

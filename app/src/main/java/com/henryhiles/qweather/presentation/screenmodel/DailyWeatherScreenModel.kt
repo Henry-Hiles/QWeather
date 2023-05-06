@@ -19,13 +19,13 @@ data class DailyWeatherState(
 
 class DailyWeatherScreenModel(
     private val repository: WeatherRepository,
-    locationPreferenceManager: LocationPreferenceManager
+    val locationPreferenceManager: LocationPreferenceManager
 ) : ScreenModel {
     var state by mutableStateOf(DailyWeatherState())
         private set
-    val location = locationPreferenceManager.locations[locationPreferenceManager.selectedIndex]
 
     fun loadWeatherInfo(cache: Boolean = true) {
+        val location = locationPreferenceManager.locations[locationPreferenceManager.selectedIndex]
         coroutineScope.launch {
             state = state.copy(isLoading = true, error = null)
             state = when (val result = repository.getDailyWeatherData(

@@ -43,7 +43,7 @@ object TodayTab : NavigationTab {
     override fun Content() {
         val weatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
 
-        LaunchedEffect(key1 = false) {
+        LaunchedEffect(key1 = weatherViewModel.locationPreferenceManager.selectedIndex) {
             weatherViewModel.loadWeatherInfo()
         }
 
@@ -78,13 +78,13 @@ object TodayTab : NavigationTab {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         WeatherCard(
                             hour = weatherViewModel.state.selected?.let {
                                 weatherViewModel.state.hourlyWeatherInfo?.weatherData?.get(it)
                             } ?: weatherViewModel.state.hourlyWeatherInfo?.currentWeatherData,
-                            location = weatherViewModel.location.location
                         )
                         WeatherToday(state = weatherViewModel.state)
                         WeatherForecast(

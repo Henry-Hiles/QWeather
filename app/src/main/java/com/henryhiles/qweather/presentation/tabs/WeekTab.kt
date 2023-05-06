@@ -43,7 +43,7 @@ object WeekTab : NavigationTab {
     override fun Content() {
         val weatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
-        LaunchedEffect(key1 = false) {
+        LaunchedEffect(key1 = weatherViewModel.locationPreferenceManager.selectedIndex) {
             weatherViewModel.loadWeatherInfo()
         }
 

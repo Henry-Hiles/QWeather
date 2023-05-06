@@ -29,7 +29,7 @@ abstract class BasePreferenceManager(
         enumValueOf<E>(getString(key, defaultValue.name))
 
     protected inline fun <reified T> getJson(key: String, defaultValue: T) =
-        Json.decodeFromString<T>(getString(key, null)) ?: defaultValue
+        Json.decodeFromString<T>(getString(key, Json.encodeToString(defaultValue)))
 
     protected fun putString(key: String, value: String?) = prefs.edit { putString(key, value) }
     private fun putBoolean(key: String, value: Boolean) = prefs.edit { putBoolean(key, value) }
