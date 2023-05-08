@@ -32,17 +32,20 @@ class MainScreen : Screen {
         val drawerState =
             rememberDrawerState(initialValue = DrawerValue.Closed)
         val coroutineScope = rememberCoroutineScope()
+
         TabNavigator(tab = TodayTab) {
             LocationsDrawer(
                 drawerState = drawerState,
-                onClose = { coroutineScope.launch { drawerState.close() } }) {
+                onClose = { coroutineScope.launch { drawerState.close() } }
+            ) {
                 Scaffold(
                     topBar = {
                         SmallToolbar(
                             title = {
                                 with(locationPreferenceManager) {
                                     Text(
-                                        text = locations[selectedIndex].location,
+                                        text = locations.getOrNull(selectedIndex)?.location
+                                            ?: stringResource(id = R.string.unknown),
                                         maxLines = 1,
                                         modifier = Modifier.basicMarquee()
                                     )

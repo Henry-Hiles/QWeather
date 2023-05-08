@@ -18,12 +18,12 @@ fun SettingsCategory(
     destination: (() -> Screen)? = null
 ) {
     val screen = destination?.invoke()
-    val nav = LocalNavigator.current?.parent
+    val navigator = LocalNavigator.current?.parent
 
     Box(
         modifier = Modifier
             .clickable {
-                screen?.let { nav?.push(it) }
+                screen?.let { navigator?.push(it) }
             }
     ) {
         SettingItem(

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SmallToolbar(
-    backButton: Boolean = true,
+    backButton: Boolean = false,
     title: @Composable () -> Unit,
     actions: @Composable RowScope.() -> Unit = {},
     navigationIcon: @Composable () -> Unit = { if (backButton) BackButton() },

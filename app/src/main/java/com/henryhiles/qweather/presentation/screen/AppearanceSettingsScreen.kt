@@ -49,7 +49,6 @@ class AppearanceSettingsScreen : Screen {
                     pref = screenModel.prefs.theme,
                     labelFactory = { context.getString(it.label) }
                 ) { screenModel.prefs.theme = it }
-
             }
         }
     }

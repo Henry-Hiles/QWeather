@@ -52,6 +52,9 @@ fun LocationsDrawer(
                                 IconButton(onClick = {
                                     locationPreferenceManager.locations -= data
                                     if (selected) locationPreferenceManager.selectedIndex = 0
+                                    if (locationPreferenceManager.locations.isEmpty()) navigator?.push(
+                                        LocationPickerScreen()
+                                    )
                                 }) {
                                     Icon(
                                         imageVector = Icons.Default.Delete,

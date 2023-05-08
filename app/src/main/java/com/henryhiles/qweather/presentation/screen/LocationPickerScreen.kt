@@ -39,13 +39,22 @@ class LocationPickerScreen : Screen {
         var isAboutOpen by remember { mutableStateOf(false) }
         val navigator = LocalNavigator.current
 
-        Scaffold(modifier = Modifier.imePadding(),
+        Scaffold(
+            modifier = Modifier.imePadding(),
             floatingActionButton = {
                 FloatingActionButton(onClick = {
                     location?.let {
-                        screenModel.prefs.locations += it
-                        screenModel.prefs.selectedIndex = screenModel.prefs.locations.count() - 1
-                        navigator?.push(MainScreen())
+                        with(screenModel.prefs) {
+                            if (it !in locations) {
+                                this.locations += it
+                                selectedIndex =
+                                    locations.count() - 1
+                            }
+                        }
+
+                        with(navigator) {
+                            if (this != null) if (canPop) pop() else push(MainScreen())
+                        }
                     } ?: kotlin.run { isAboutOpen = true }
                 }) {
                     Icon(
@@ -53,10 +62,12 @@ class LocationPickerScreen : Screen {
                         contentDescription = stringResource(id = R.string.action_apply)
                     )
                 }
-            }) {
+            }
+        ) {
             Column {
                 SmallToolbar(
                     title = { Text(text = stringResource(id = R.string.location_choose)) },
+                    backButton = true,
                     actions = {
                         IconButton(
                             onClick = { isAboutOpen = true }) {
@@ -81,16 +92,18 @@ class LocationPickerScreen : Screen {
                     )
                 } ?: kotlin.run {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        if (isAboutOpen) AlertDialog(
-                            title = { Text(text = stringResource(id = R.string.location_choose)) },
-                            text = { Text(text = stringResource(id = R.string.help_location_picker)) },
-                            onDismissRequest = { isAboutOpen = false },
-                            confirmButton = {
-                                TextButton(
-                                    onClick = { isAboutOpen = false }) {
-                                    Text(text = stringResource(id = R.string.action_confirm))
+                        if (isAboutOpen)
+                            AlertDialog(
+                                title = { Text(text = stringResource(id = R.string.location_choose)) },
+                                text = { Text(text = stringResource(id = R.string.help_location_picker)) },
+                                onDismissRequest = { isAboutOpen = false },
+                                confirmButton = {
+                                    TextButton(
+                                        onClick = { isAboutOpen = false }) {
+                                        Text(text = stringResource(id = R.string.action_confirm))
+                                    }
                                 }
-                            })
+                            )
 
                         OutlinedTextField(
                             label = { Text(text = stringResource(id = R.string.location)) },
@@ -128,9 +141,19 @@ class LocationPickerScreen : Screen {
                                     Alignment.CenterHorizontally
                                 )
                                 .padding(16.dp)
-                        ) else screenModel.state.locations?.let {
+                        ) else screenModel.state.locations?.let { results ->
+                            if (results.isEmpty()) Card {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(text = "No locations found")
+                                }
+                            }
                             LazyColumn {
-                                items(it) {
+                                items(results) {
                                     val selected = it == location
                                     Spacer(modifier = Modifier.height(8.dp))
                                     Card(modifier = Modifier.clickable { location = it }) {

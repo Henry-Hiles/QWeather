@@ -31,16 +31,15 @@ class QWeatherActivity : ComponentActivity() {
                 Theme.LIGHT -> false
                 Theme.DARK -> true
             }
-            val locations = location.locations
-            val isLocationSet = locations.isNotEmpty()
 
             WeatherAppTheme(darkTheme = isDark, monet = prefs.monet) {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     Navigator(
-                        screen = if (isLocationSet) MainScreen() else LocationPickerScreen(),
+                        screen = if (location.locations.isEmpty()) LocationPickerScreen() else MainScreen(),
                         onBackPressed = {
                             it !is MainScreen
-                        }) {
+                        }
+                    ) {
                         SlideTransition(it)
                     }
                 }
