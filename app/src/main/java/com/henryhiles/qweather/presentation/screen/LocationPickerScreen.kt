@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.geocoding.GeocodingData
 import com.henryhiles.qweather.presentation.components.navigation.SmallToolbar
@@ -37,7 +38,7 @@ class LocationPickerScreen : Screen {
         }
         var locationSearch by remember { mutableStateOf("") }
         var isAboutOpen by remember { mutableStateOf(false) }
-        val navigator = LocalNavigator.current
+        val navigator = LocalNavigator.currentOrThrow
 
         Scaffold(
             modifier = Modifier.imePadding(),
@@ -53,7 +54,7 @@ class LocationPickerScreen : Screen {
                         }
 
                         with(navigator) {
-                            if (this != null) if (canPop) pop() else push(MainScreen())
+                            if (canPop) pop() else push(MainScreen())
                         }
                     } ?: kotlin.run { isAboutOpen = true }
                 }) {
@@ -67,7 +68,7 @@ class LocationPickerScreen : Screen {
             Column {
                 SmallToolbar(
                     title = { Text(text = stringResource(id = R.string.location_choose)) },
-                    backButton = true,
+                    backButton = screenModel.prefs.locations.isNotEmpty(),
                     actions = {
                         IconButton(
                             onClick = { isAboutOpen = true }) {

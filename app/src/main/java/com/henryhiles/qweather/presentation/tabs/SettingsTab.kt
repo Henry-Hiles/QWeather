@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.util.NavigationTab
@@ -58,7 +57,7 @@ object SettingsTab : NavigationTab {
 
     @Composable
     override fun Actions() {
-        val navigator = LocalNavigator.currentOrThrow.parent
+        val navigator = LocalNavigator.current?.parent
 
         IconButton(onClick = { navigator?.push(AboutScreen()) }) {
             Icon(
