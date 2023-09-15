@@ -1,5 +1,5 @@
 # QWeather
-A weather app for android, FOSS and M3. Uses the open-meteo api. Nearing release.
+A weather app for android, FOSS and M3. Uses the open-meteo api. Nearing release, but currently pre-release so expect bugs.
 
 ## Installation
 A debug build can be found at [Github Actions](https://github.com/Henry-Hiles/QWeather/actions), or by [nightly.link](https://nightly.link/Henry-Hiles/QWeather/workflows/build/main/QWeather.zip).
