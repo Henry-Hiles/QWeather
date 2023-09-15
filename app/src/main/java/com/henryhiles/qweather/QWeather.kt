@@ -18,5 +18,4 @@ class QWeather : Application() {
             )
         }
     }
-
 }
