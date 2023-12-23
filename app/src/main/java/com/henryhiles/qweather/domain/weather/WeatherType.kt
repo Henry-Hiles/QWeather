@@ -7,137 +7,137 @@ sealed class WeatherType(
     val weatherDesc: String,
     @DrawableRes val iconRes: Int
 ) {
-    object ClearSky : WeatherType(
+    data object ClearSky : WeatherType(
         weatherDesc = "Clear sky",
         iconRes = R.drawable.ic_sunny
     )
 
-    object MainlyClear : WeatherType(
+    data object MainlyClear : WeatherType(
         weatherDesc = "Mainly clear",
         iconRes = R.drawable.ic_cloudy
     )
 
-    object PartlyCloudy : WeatherType(
+    data object PartlyCloudy : WeatherType(
         weatherDesc = "Partly cloudy",
         iconRes = R.drawable.ic_cloudy
     )
 
-    object Overcast : WeatherType(
+    data object Overcast : WeatherType(
         weatherDesc = "Overcast",
         iconRes = R.drawable.ic_cloudy
     )
 
-    object Foggy : WeatherType(
+    data object Foggy : WeatherType(
         weatherDesc = "Foggy",
         iconRes = R.drawable.ic_very_cloudy
     )
 
-    object DepositingRimeFog : WeatherType(
+    data object DepositingRimeFog : WeatherType(
         weatherDesc = "Depositing rime fog",
         iconRes = R.drawable.ic_very_cloudy
     )
 
-    object LightDrizzle : WeatherType(
+    data object LightDrizzle : WeatherType(
         weatherDesc = "Light drizzle",
         iconRes = R.drawable.ic_rainshower
     )
 
-    object ModerateDrizzle : WeatherType(
+    data object ModerateDrizzle : WeatherType(
         weatherDesc = "Moderate drizzle",
         iconRes = R.drawable.ic_rainshower
     )
 
-    object DenseDrizzle : WeatherType(
+    data object DenseDrizzle : WeatherType(
         weatherDesc = "Dense drizzle",
         iconRes = R.drawable.ic_rainshower
     )
 
-    object LightFreezingDrizzle : WeatherType(
+    data object LightFreezingDrizzle : WeatherType(
         weatherDesc = "Slight freezing drizzle",
         iconRes = R.drawable.ic_snowyrainy
     )
 
-    object DenseFreezingDrizzle : WeatherType(
+    data object DenseFreezingDrizzle : WeatherType(
         weatherDesc = "Dense freezing drizzle",
         iconRes = R.drawable.ic_snowyrainy
     )
 
-    object SlightRain : WeatherType(
+    data object SlightRain : WeatherType(
         weatherDesc = "Slight rain",
         iconRes = R.drawable.ic_rainy
     )
 
-    object ModerateRain : WeatherType(
+    data object ModerateRain : WeatherType(
         weatherDesc = "Rainy",
         iconRes = R.drawable.ic_rainy
     )
 
-    object HeavyRain : WeatherType(
+    data object HeavyRain : WeatherType(
         weatherDesc = "Heavy rain",
         iconRes = R.drawable.ic_rainy
     )
 
-    object HeavyFreezingRain : WeatherType(
+    data object HeavyFreezingRain : WeatherType(
         weatherDesc = "Heavy freezing rain",
         iconRes = R.drawable.ic_snowyrainy
     )
 
-    object SlightSnowFall : WeatherType(
+    data object SlightSnowFall : WeatherType(
         weatherDesc = "Slight snow fall",
         iconRes = R.drawable.ic_snowy
     )
 
-    object ModerateSnowFall : WeatherType(
+    data object ModerateSnowFall : WeatherType(
         weatherDesc = "Moderate snow fall",
         iconRes = R.drawable.ic_heavysnow
     )
 
-    object HeavySnowFall : WeatherType(
+    data object HeavySnowFall : WeatherType(
         weatherDesc = "Heavy snow fall",
         iconRes = R.drawable.ic_heavysnow
     )
 
-    object SnowGrains : WeatherType(
+    data object SnowGrains : WeatherType(
         weatherDesc = "Snow grains",
         iconRes = R.drawable.ic_heavysnow
     )
 
-    object SlightRainShowers : WeatherType(
+    data object SlightRainShowers : WeatherType(
         weatherDesc = "Slight rain showers",
         iconRes = R.drawable.ic_rainshower
     )
 
-    object ModerateRainShowers : WeatherType(
+    data object ModerateRainShowers : WeatherType(
         weatherDesc = "Moderate rain showers",
         iconRes = R.drawable.ic_rainshower
     )
 
-    object ViolentRainShowers : WeatherType(
+    data object ViolentRainShowers : WeatherType(
         weatherDesc = "Violent rain showers",
         iconRes = R.drawable.ic_rainshower
     )
 
-    object SlightSnowShowers : WeatherType(
+    data object SlightSnowShowers : WeatherType(
         weatherDesc = "Light snow showers",
         iconRes = R.drawable.ic_snowy
     )
 
-    object HeavySnowShowers : WeatherType(
+    data object HeavySnowShowers : WeatherType(
         weatherDesc = "Heavy snow showers",
         iconRes = R.drawable.ic_snowy
     )
 
-    object ModerateThunderstorm : WeatherType(
+    data object ModerateThunderstorm : WeatherType(
         weatherDesc = "Moderate thunderstorm",
         iconRes = R.drawable.ic_thunder
     )
 
-    object SlightHailThunderstorm : WeatherType(
+    data object SlightHailThunderstorm : WeatherType(
         weatherDesc = "Thunderstorm with slight hail",
         iconRes = R.drawable.ic_rainythunder
     )
 
-    object HeavyHailThunderstorm : WeatherType(
+    data object HeavyHailThunderstorm : WeatherType(
         weatherDesc = "Thunderstorm with heavy hail",
         iconRes = R.drawable.ic_rainythunder
     )
