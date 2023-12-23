@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.henryhiles.qweather.domain.repository.WeatherRepository
 import com.henryhiles.qweather.domain.util.Resource
 import com.henryhiles.qweather.domain.weather.HourlyWeatherInfo
@@ -26,7 +26,7 @@ class HourlyWeatherScreenModel(
 
     fun loadWeatherInfo(cache: Boolean = true) {
         val location = locationPreferenceManager.locations[locationPreferenceManager.selectedIndex]
-        coroutineScope.launch {
+        screenModelScope.launch {
             state = state.copy(isLoading = true, error = null, selected = null)
             state = when (val result =
                 repository.getHourlyWeatherData(
