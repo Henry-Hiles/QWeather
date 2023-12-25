@@ -4,10 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Thermostat
 import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material.icons.outlined.WindPower
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -40,7 +40,8 @@ fun WeatherCard(hour: HourlyWeatherData?, modifier: Modifier = Modifier) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Today $formattedTime",
+                        text = formattedTime,
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -53,18 +54,12 @@ fun WeatherCard(hour: HourlyWeatherData?, modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = "${it.temperature}°C", fontSize = 50.sp)
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = it.weatherType.weatherDesc, fontSize = 20.sp)
+                Text(text = "${it.weatherType.weatherDesc} - Feels like ${it.apparentTemperature}°C", fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(32.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    WeatherDataDisplay(
-                        value = it.apparentTemperature,
-                        unit = "°C",
-                        icon = Icons.Outlined.Thermostat,
-                        description = "Feels like",
-                    )
                     WeatherDataDisplay(
                         value = it.precipitationProbability,
                         unit = "%",

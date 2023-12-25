@@ -67,7 +67,7 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             WeatherDataDisplay(
                 value = dailyWeatherData.precipitationProbabilityMax,

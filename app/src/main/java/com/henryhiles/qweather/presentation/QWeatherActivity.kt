@@ -3,7 +3,6 @@ package com.henryhiles.qweather.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -22,7 +21,6 @@ class QWeatherActivity : ComponentActivity() {
     private val prefs: AppearancePreferenceManager by inject()
     private val location: LocationPreferenceManager by inject()
 
-    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,9 +34,6 @@ class QWeatherActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     Navigator(
                         screen = if (location.locations.isEmpty()) LocationPickerScreen() else MainScreen(),
-                        onBackPressed = {
-                            it !is MainScreen
-                        }
                     ) {
                         SlideTransition(it)
                     }

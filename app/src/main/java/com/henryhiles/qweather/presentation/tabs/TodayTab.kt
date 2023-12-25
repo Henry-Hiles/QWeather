@@ -81,12 +81,12 @@ object TodayTab : NavigationTab {
                             .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
+                        WeatherToday(state = weatherViewModel.state)
                         WeatherCard(
                             hour = weatherViewModel.state.selected?.let {
                                 weatherViewModel.state.hourlyWeatherInfo?.weatherData?.get(it)
                             } ?: weatherViewModel.state.hourlyWeatherInfo?.currentWeatherData,
                         )
-                        WeatherToday(state = weatherViewModel.state)
                         WeatherForecast(
                             state = weatherViewModel.state
                         ) { weatherViewModel.setSelected(it) }

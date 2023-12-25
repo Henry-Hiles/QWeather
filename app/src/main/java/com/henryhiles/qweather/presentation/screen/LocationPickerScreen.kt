@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -31,30 +30,21 @@ class LocationPickerScreen : Screen {
     override fun Content() {
         val screenModel: LocationPickerScreenModel = getScreenModel()
         var locationSearch by remember { mutableStateOf("") }
-        var isAboutOpen by remember { mutableStateOf(false) }
         val navigator = LocalNavigator.currentOrThrow
 
         Scaffold(
             modifier = Modifier.imePadding(),
-        ) {padding ->
+        ) { padding ->
             Column(modifier = Modifier.padding(padding)) {
                 SmallToolbar(
                     title = { Text(text = stringResource(id = R.string.location_choose)) },
                     backButton = screenModel.prefs.locations.isNotEmpty(),
-                    actions = {
-                        IconButton(
-                            onClick = { isAboutOpen = true }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Info,
-                                contentDescription = stringResource(id = R.string.help_screen)
-                            )
-                        }
-                    })
+                )
                 screenModel.state.error?.let {
                     AlertDialog(
-                        onDismissRequest = {navigator.pop()},
+                        onDismissRequest = { navigator.pop() },
                         confirmButton = {
-                            TextButton(onClick = {navigator.pop()}) {
+                            TextButton(onClick = { navigator.pop() }) {
                                 Text(text = stringResource(id = R.string.action_confirm))
                             }
                         },
@@ -69,19 +59,6 @@ class LocationPickerScreen : Screen {
                     )
                 } ?: kotlin.run {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        if (isAboutOpen)
-                            AlertDialog(
-                                title = { Text(text = stringResource(id = R.string.location_choose)) },
-                                text = { Text(text = stringResource(id = R.string.help_location_picker)) },
-                                onDismissRequest = { isAboutOpen = false },
-                                confirmButton = {
-                                    TextButton(
-                                        onClick = { isAboutOpen = false }) {
-                                        Text(text = stringResource(id = R.string.action_confirm))
-                                    }
-                                }
-                            )
-
                         OutlinedTextField(
                             label = { Text(text = stringResource(id = R.string.location)) },
                             keyboardOptions = KeyboardOptions(

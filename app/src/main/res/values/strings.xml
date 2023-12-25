@@ -15,9 +15,6 @@
 
     <string name="selected">Selected</string>
 
-    <string name="help_screen">How do I use this screen?</string>
-    <string name="help_location_picker">Please search a location, then tap a result. Then tap the apply button in the bottom left corner.</string>
-
     <string name="appearance_theme">Theme</string>
     <string name="appearance_monet">Dynamic Theme</string>
     <string name="appearance_monet_description">Available on Android 12+</string>
@@ -40,6 +37,8 @@
     <string name="weather_high">High: %1$d°C</string>
     <string name="weather_low">Low: %1$d°C</string>
     <string name="weather_precipitation">Precipitation: %1$d&#65130;</string>
+
+    <string name="today_in">Today in %1$s</string>
 
     <string name="unknown">Unknown</string>
 

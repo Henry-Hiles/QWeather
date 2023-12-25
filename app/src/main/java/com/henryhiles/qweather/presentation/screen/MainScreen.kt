@@ -19,16 +19,13 @@ import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.location.LocationsDrawer
 import com.henryhiles.qweather.presentation.components.navigation.BottomBar
 import com.henryhiles.qweather.presentation.components.navigation.SmallToolbar
-import com.henryhiles.qweather.presentation.screenmodel.LocationPreferenceManager
 import com.henryhiles.qweather.presentation.tabs.TodayTab
 import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
 
 class MainScreen : Screen {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
-        val locationPreferenceManager: LocationPreferenceManager = koinInject()
         val drawerState =
             rememberDrawerState(initialValue = DrawerValue.Closed)
         val coroutineScope = rememberCoroutineScope()
@@ -42,14 +39,11 @@ class MainScreen : Screen {
                     topBar = {
                         SmallToolbar(
                             title = {
-                                with(locationPreferenceManager) {
-                                    Text(
-                                        text = locations.getOrNull(selectedIndex)?.location
-                                            ?: stringResource(id = R.string.unknown),
-                                        maxLines = 1,
-                                        modifier = Modifier.basicMarquee()
-                                    )
-                                }
+                                Text(
+                                    text = it.current.options.title,
+                                    maxLines = 1,
+                                    modifier = Modifier.basicMarquee()
+                                )
                             },
                             actions = {
                                 (it.current as? NavigationTab)?.Actions()
