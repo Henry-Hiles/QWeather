@@ -38,7 +38,7 @@ fun WeatherHour(
             ) {
                 Text(text = formattedTime)
                 Image(
-                    painter = painterResource(id = it.weatherType.iconRes),
+                    painter = painterResource(id = it.icon),
                     contentDescription = "Image of ${it.weatherType.weatherDesc}",
                     modifier = Modifier.width(40.dp)
                 )

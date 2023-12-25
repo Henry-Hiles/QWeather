@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +37,6 @@ fun WeatherCard(hour: HourlyWeatherData?, modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
@@ -45,9 +45,10 @@ fun WeatherCard(hour: HourlyWeatherData?, modifier: Modifier = Modifier) {
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
-                    painter = painterResource(id = if(it.time.hour > 6 || it.time.hour < 8) it.weatherType.nightIconRes else it.weatherType.iconRes),
+                    painter = painterResource(id = it.icon),
                     contentDescription = "Image of ${it.weatherType.weatherDesc}",
-                    modifier = Modifier.height(152.dp)
+                    modifier = Modifier.height(140.dp),
+                    contentScale = ContentScale.FillHeight
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = "${it.temperature}°C", fontSize = 50.sp)
