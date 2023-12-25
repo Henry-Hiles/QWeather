@@ -36,15 +36,6 @@ class LocationPickerScreen : Screen {
 
         Scaffold(
             modifier = Modifier.imePadding(),
-//                FloatingActionButton(onClick = {
-
-//                    } ?: kotlin.run { isAboutOpen = true }
-//                }) {
-//                    Icon(
-//                        imageVector = Icons.Default.Check,
-//                        contentDescription = stringResource(id = R.string.action_apply)
-//                    )
-//                }
         ) {padding ->
             Column(modifier = Modifier.padding(padding)) {
                 SmallToolbar(
