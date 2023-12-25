@@ -7,16 +7,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import com.henryhiles.qweather.R
 import com.henryhiles.qweather.presentation.screen.LocationPickerScreen
 import com.henryhiles.qweather.presentation.screenmodel.LocationPreferenceManager
-import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 
 @Composable
 fun LocationsDrawer(
@@ -24,7 +26,7 @@ fun LocationsDrawer(
     onClose: () -> Unit,
     children: @Composable () -> Unit
 ) {
-    val locationPreferenceManager: LocationPreferenceManager = get()
+    val locationPreferenceManager: LocationPreferenceManager = koinInject()
     val navigator = LocalNavigator.current?.parent
 
     ModalNavigationDrawer(
@@ -42,7 +44,15 @@ fun LocationsDrawer(
                     locations.forEachIndexed { index, data ->
                         val selected = index == locationPreferenceManager.selectedIndex
                         NavigationDrawerItem(
-                            label = { Text(text = data.location) },
+                            label = { Text(text = data.location, overflow = TextOverflow.Ellipsis, maxLines = 1) },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.LocationOn,
+                                    contentDescription = stringResource(
+                                        id = R.string.location
+                                    )
+                                )
+                            },
                             selected = selected,
                             onClick = {
                                 onClose()
