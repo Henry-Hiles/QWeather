@@ -1,7 +1,6 @@
 package com.henryhiles.qweather.presentation.components.weather
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Water
@@ -22,7 +21,7 @@ import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun WeatherDay(dailyWeatherData: DailyWeatherData, expanded: Boolean, onExpand: () -> Unit) {
+fun WeatherDay(dailyWeatherData: DailyWeatherData) {
     val formattedDate by remember {
         derivedStateOf {
             dailyWeatherData.date.format(
@@ -37,7 +36,6 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData, expanded: Boolean, onExpand: 
                 horizontal = 16.dp,
                 vertical = 8.dp
             )
-            .clickable(onClick = onExpand)
     ) {
         Row(
             modifier = Modifier
@@ -65,34 +63,32 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData, expanded: Boolean, onExpand: 
                 style = MaterialTheme.typography.titleLarge,
             )
         }
-        if (expanded) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                WeatherDataDisplay(
-                    value = dailyWeatherData.precipitationProbabilityMax,
-                    unit = "%",
-                    icon = Icons.Outlined.WaterDrop,
-                    description = "Chance of rain"
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                WeatherDataDisplay(
-                    value = dailyWeatherData.windSpeedMax,
-                    unit = "mm",
-                    icon = Icons.Outlined.Water,
-                    description = "Precipitation Amount"
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                WeatherDataDisplay(
-                    value = dailyWeatherData.windSpeedMax,
-                    unit = "km/h",
-                    icon = Icons.Outlined.WindPower,
-                    description = "Wind Speed"
-                )
-            }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            WeatherDataDisplay(
+                value = dailyWeatherData.precipitationProbabilityMax,
+                unit = "%",
+                icon = Icons.Outlined.WaterDrop,
+                description = "Chance of rain"
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            WeatherDataDisplay(
+                value = dailyWeatherData.windSpeedMax,
+                unit = "mm",
+                icon = Icons.Outlined.Water,
+                description = "Precipitation Amount"
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            WeatherDataDisplay(
+                value = dailyWeatherData.windSpeedMax,
+                unit = "km/h",
+                icon = Icons.Outlined.WindPower,
+                description = "Wind Speed"
+            )
         }
     }
 }

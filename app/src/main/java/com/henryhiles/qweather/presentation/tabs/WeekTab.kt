@@ -3,7 +3,7 @@ package com.henryhiles.qweather.presentation.tabs
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -75,13 +75,8 @@ object WeekTab : NavigationTab {
                         modifier = Modifier.fillMaxSize()
                     ) {
                         weatherViewModel.state.dailyWeatherData?.let { data ->
-                            itemsIndexed(data) { index, dailyData ->
-                                val expanded = weatherViewModel.state.expanded == index
-                                WeatherDay(
-                                    dailyWeatherData = dailyData,
-                                    expanded = expanded,
-                                    onExpand = { weatherViewModel.setExpanded(if (expanded) null else index) }
-                                )
+                            items(data) {
+                                WeatherDay(dailyWeatherData = it)
                             }
                         }
                     }
