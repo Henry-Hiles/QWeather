@@ -33,39 +33,23 @@ class LocationPickerScreen : Screen {
     @Composable
     override fun Content() {
         val screenModel: LocationPickerScreenModel = getScreenModel()
-        var location by remember {
-            mutableStateOf<GeocodingData?>(null)
-        }
         var locationSearch by remember { mutableStateOf("") }
         var isAboutOpen by remember { mutableStateOf(false) }
         val navigator = LocalNavigator.currentOrThrow
 
         Scaffold(
             modifier = Modifier.imePadding(),
-            floatingActionButton = {
-                FloatingActionButton(onClick = {
-                    location?.let {
-                        with(screenModel.prefs) {
-                            if (it !in locations) {
-                                this.locations += it
-                                selectedIndex =
-                                    locations.count() - 1
-                            }
-                        }
+//                FloatingActionButton(onClick = {
 
-                        with(navigator) {
-                            if (canPop) pop() else push(MainScreen())
-                        }
-                    } ?: kotlin.run { isAboutOpen = true }
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = stringResource(id = R.string.action_apply)
-                    )
-                }
-            }
-        ) {
-            Column(modifier = Modifier.padding(it)) {
+//                    } ?: kotlin.run { isAboutOpen = true }
+//                }) {
+//                    Icon(
+//                        imageVector = Icons.Default.Check,
+//                        contentDescription = stringResource(id = R.string.action_apply)
+//                    )
+//                }
+        ) {padding ->
+            Column(modifier = Modifier.padding(padding)) {
                 SmallToolbar(
                     title = { Text(text = stringResource(id = R.string.location_choose)) },
                     backButton = screenModel.prefs.locations.isNotEmpty(),
@@ -159,25 +143,26 @@ class LocationPickerScreen : Screen {
                             }
                             LazyColumn {
                                 items(results) {
-                                    val selected = it == location
                                     Spacer(modifier = Modifier.height(8.dp))
-                                    Card(modifier = Modifier.clickable { location = it }) {
+                                    Card(modifier = Modifier.clickable {
+                                        with(screenModel.prefs) {
+                                            if (it !in locations) {
+                                                locations += it
+                                                selectedIndex =
+                                                    locations.count() - 1
+                                            }
+                                        }
+
+                                        with(navigator) {
+                                            if (canPop) pop() else push(MainScreen())
+                                        }
+                                    }) {
                                         Row(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .padding(16.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            if (selected) {
-                                                Icon(
-                                                    imageVector = Icons.Default.Check,
-                                                    contentDescription = stringResource(
-                                                        id = R.string.selected
-                                                    ),
-                                                    modifier = Modifier.height(16.dp)
-                                                )
-                                                Spacer(modifier = Modifier.width(8.dp))
-                                            }
                                             Text(text = it.location)
                                         }
                                     }
