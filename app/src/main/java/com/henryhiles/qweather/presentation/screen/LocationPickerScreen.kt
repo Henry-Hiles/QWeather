@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
@@ -24,10 +23,8 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.henryhiles.qweather.R
-import com.henryhiles.qweather.domain.geocoding.GeocodingData
 import com.henryhiles.qweather.presentation.components.navigation.SmallToolbar
 import com.henryhiles.qweather.presentation.screenmodel.LocationPickerScreenModel
-
 
 class LocationPickerScreen : Screen {
     @Composable
