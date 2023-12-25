@@ -18,8 +18,7 @@ class AboutScreen : Screen {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(it)
-            ) {
-            }
+            ) {}
         }
     }
 }

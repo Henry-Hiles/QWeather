@@ -65,7 +65,7 @@ class LocationPickerScreen : Screen {
                 }
             }
         ) {
-            Column {
+            Column(modifier = Modifier.padding(it)) {
                 SmallToolbar(
                     title = { Text(text = stringResource(id = R.string.location_choose)) },
                     backButton = screenModel.prefs.locations.isNotEmpty(),
@@ -80,8 +80,12 @@ class LocationPickerScreen : Screen {
                     })
                 screenModel.state.error?.let {
                     AlertDialog(
-                        onDismissRequest = {},
-                        confirmButton = {},
+                        onDismissRequest = {navigator.pop()},
+                        confirmButton = {
+                            TextButton(onClick = {navigator.pop()}) {
+                                Text(text = stringResource(id = R.string.action_confirm))
+                            }
+                        },
                         title = { Text(text = stringResource(id = R.string.error)) },
                         text = {
                             SelectionContainer {

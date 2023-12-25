@@ -45,7 +45,7 @@ fun WeatherCard(hour: HourlyWeatherData?, modifier: Modifier = Modifier) {
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
-                    painter = painterResource(id = it.weatherType.iconRes),
+                    painter = painterResource(id = if(it.time.hour > 6 || it.time.hour < 8) it.weatherType.nightIconRes else it.weatherType.iconRes),
                     contentDescription = "Image of ${it.weatherType.weatherDesc}",
                     modifier = Modifier.height(152.dp)
                 )

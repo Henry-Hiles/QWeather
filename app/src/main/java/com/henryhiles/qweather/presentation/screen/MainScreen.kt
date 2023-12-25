@@ -22,13 +22,13 @@ import com.henryhiles.qweather.presentation.components.navigation.SmallToolbar
 import com.henryhiles.qweather.presentation.screenmodel.LocationPreferenceManager
 import com.henryhiles.qweather.presentation.tabs.TodayTab
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 
 class MainScreen : Screen {
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
-        val locationPreferenceManager: LocationPreferenceManager = get()
+        val locationPreferenceManager: LocationPreferenceManager = koinInject()
         val drawerState =
             rememberDrawerState(initialValue = DrawerValue.Closed)
         val coroutineScope = rememberCoroutineScope()

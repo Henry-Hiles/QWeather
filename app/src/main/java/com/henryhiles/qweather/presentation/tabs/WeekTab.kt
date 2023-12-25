@@ -60,19 +60,19 @@ object WeekTab : NavigationTab {
                     AlertDialog(
                         onDismissRequest = {},
                         confirmButton = {},
-                        title = { Text(text = "An error occurred") },
+                        title = { Text(text = stringResource(R.string.error)) },
                         text = {
                             SelectionContainer {
                                 Text(
                                     text = weatherViewModel.state.error!!,
                                 )
                             }
-                        })
+                        },
+                    )
                 }
                 else -> {
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
+                        modifier = Modifier.fillMaxSize()
                     ) {
                         weatherViewModel.state.dailyWeatherData?.let { data ->
                             itemsIndexed(data) { index, dailyData ->
