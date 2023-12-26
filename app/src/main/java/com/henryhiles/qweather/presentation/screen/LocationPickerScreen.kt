@@ -110,6 +110,7 @@ class LocationPickerScreen : Screen {
                                 items(results) {
                                     Spacer(modifier = Modifier.height(8.dp))
                                     Card(modifier = Modifier.clickable {
+                                        locationSearch = ""
                                         with(screenModel.prefs) {
                                             if (it !in locations) {
                                                 locations += it
