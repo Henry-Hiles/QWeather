@@ -6,6 +6,6 @@ A debug build can be found at [Github Actions](https://github.com/Henry-Hiles/QW
 
 ## Screenshots
 <section>
-  <img src="https://user-images.githubusercontent.com/71790868/232802780-1b12a4dd-e68a-4402-9616-cbf2f0ea1320.png" alt="Screenshot of QWeather" width=300 />
-  <img src="https://user-images.githubusercontent.com/71790868/232802669-8507fead-076d-4b43-9c8e-594450243541.png" alt="Screenshot of QWeather" width=300 />
+  <img src="https://github.com/Henry-Hiles/QWeather/assets/71790868/f02f22d7-589f-470f-9f0c-d80947e7e9bd" alt="Screenshot of QWeather" width=300 />
+  <img src="https://github.com/Henry-Hiles/QWeather/assets/71790868/a5f5a895-4379-4a04-ac0b-3f51b500687b" alt="Screenshot of QWeather" width=300 />
 </section>
