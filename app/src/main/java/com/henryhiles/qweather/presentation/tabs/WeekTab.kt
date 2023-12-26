@@ -1,7 +1,10 @@
 package com.henryhiles.qweather.presentation.tabs
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -16,12 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.weather.WeatherDay
+import com.henryhiles.qweather.presentation.components.weather.WeatherToday
 import com.henryhiles.qweather.presentation.screenmodel.DailyWeatherScreenModel
+import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherScreenModel
 
 object WeekTab : NavigationTab {
     override val options: TabOptions
@@ -41,22 +47,25 @@ object WeekTab : NavigationTab {
 
     @Composable
     override fun Content() {
-        val weatherViewModel = getScreenModel<DailyWeatherScreenModel>()
+        val hourlyWeatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
+        val dailyWeatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
-        LaunchedEffect(key1 = weatherViewModel.locationPreferenceManager.selectedIndex) {
-            weatherViewModel.loadWeatherInfo()
+        LaunchedEffect(key1 = dailyWeatherViewModel.locationPreferenceManager.selectedIndex) {
+            dailyWeatherViewModel.loadWeatherInfo()
+            hourlyWeatherViewModel.loadWeatherInfo()
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
             when {
-                weatherViewModel.state.isLoading -> {
+                dailyWeatherViewModel.state.isLoading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(
                             Alignment.Center
                         )
                     )
                 }
-                weatherViewModel.state.error != null -> {
+
+                dailyWeatherViewModel.state.error != null -> {
                     AlertDialog(
                         onDismissRequest = {},
                         confirmButton = {},
@@ -64,18 +73,19 @@ object WeekTab : NavigationTab {
                         text = {
                             SelectionContainer {
                                 Text(
-                                    text = weatherViewModel.state.error!!,
+                                    text = dailyWeatherViewModel.state.error!!,
                                 )
                             }
                         },
                     )
                 }
+
                 else -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        weatherViewModel.state.dailyWeatherData?.let { data ->
+                    LazyColumn(contentPadding = PaddingValues(16.dp)) {
+                        dailyWeatherViewModel.state.dailyWeatherData?.let { data ->
+                            item { WeatherToday(state = hourlyWeatherViewModel.state) }
                             items(data) {
+                                Spacer(modifier = Modifier.height(16.dp))
                                 WeatherDay(dailyWeatherData = it)
                             }
                         }
@@ -87,9 +97,13 @@ object WeekTab : NavigationTab {
 
     @Composable
     override fun Actions() {
-        val viewModel: DailyWeatherScreenModel = getScreenModel()
+        val hourlyWeatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
+        val dailyWeatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
-        IconButton(onClick = { viewModel.loadWeatherInfo(cache = false) }) {
+        IconButton(onClick = {
+            hourlyWeatherViewModel.loadWeatherInfo(cache = false)
+            dailyWeatherViewModel.loadWeatherInfo(cache = false)
+        }) {
             Icon(
                 imageVector = Icons.Filled.Refresh,
                 contentDescription = stringResource(R.string.action_reload)

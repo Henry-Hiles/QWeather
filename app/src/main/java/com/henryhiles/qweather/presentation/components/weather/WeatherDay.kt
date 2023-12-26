@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import java.time.format.DateTimeFormatter
@@ -30,13 +31,7 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
         }
     }
 
-    Card(
-        modifier = Modifier
-            .padding(
-                horizontal = 16.dp,
-                vertical = 8.dp
-            )
-    ) {
+    Card {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -52,7 +47,8 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
-                    text = formattedDate
+                    text = formattedDate,
+                    fontWeight = FontWeight.Bold,
                 )
                 Text(text = "Feels like ${dailyWeatherData.apparentTemperatureMax}°C")
             }
