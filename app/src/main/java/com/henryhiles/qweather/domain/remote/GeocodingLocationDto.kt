@@ -5,11 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GeocodingLocationDto(
-    @SerialName("name")
-    val city: String,
+    val name: String,
     val country: String,
     @SerialName("admin1")
-    val admin: String,
+    val admin: String? = null,
     val latitude: Float,
     val longitude: Float
 )

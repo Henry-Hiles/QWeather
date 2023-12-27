@@ -13,12 +13,15 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.henryhiles.qweather.domain.util.getIcon
+import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import com.henryhiles.qweather.domain.weather.HourlyWeatherData
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun WeatherHour(
     data: HourlyWeatherData,
+    dailyData: DailyWeatherData,
     modifier: Modifier = Modifier,
     onChangeSelected: () -> Unit
 ) {
@@ -38,7 +41,9 @@ fun WeatherHour(
             ) {
                 Text(text = formattedTime)
                 Image(
-                    painter = painterResource(id = it.icon),
+                    painter = painterResource(
+                        id = getIcon(it, dailyData)
+                    ),
                     contentDescription = "Image of ${it.weatherType.weatherDesc}",
                     modifier = Modifier.width(40.dp)
                 )

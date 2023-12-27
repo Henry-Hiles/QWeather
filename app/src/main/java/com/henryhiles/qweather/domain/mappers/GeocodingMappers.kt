@@ -6,7 +6,7 @@ import com.henryhiles.qweather.domain.geocoding.GeocodingData
 fun GeocodingDto.toGeocodingData(): List<GeocodingData> {
     return results.map {
         GeocodingData(
-            location = "${it.city}, ${it.admin}, ${it.country}",
+            location = "${if(it.name == it.country) "" else "${it.name}, "}${if(it.admin == null) "" else "${it.admin}, "}${it.country}",
             longitude = it.longitude,
             latitude = it.latitude,
         )

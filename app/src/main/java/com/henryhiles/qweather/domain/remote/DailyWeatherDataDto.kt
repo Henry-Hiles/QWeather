@@ -9,6 +9,8 @@ data class DailyWeatherDataDto(
     val date: List<String>,
     @SerialName("weathercode")
     val weatherCode: List<Int>,
+    val sunrise: List<String>,
+    val sunset: List<String>,
     @SerialName("precipitation_probability_max")
     val precipitationProbabilityMax: List<Int?>,
     @SerialName("precipitation_sum")

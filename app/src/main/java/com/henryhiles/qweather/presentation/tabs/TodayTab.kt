@@ -21,6 +21,7 @@ import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.weather.WeatherCard
 import com.henryhiles.qweather.presentation.components.weather.WeatherForecast
 import com.henryhiles.qweather.presentation.components.weather.WeatherToday
+import com.henryhiles.qweather.presentation.screenmodel.DailyWeatherScreenModel
 import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherScreenModel
 
 object TodayTab : NavigationTab {
@@ -42,9 +43,11 @@ object TodayTab : NavigationTab {
     @Composable
     override fun Content() {
         val weatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
+        val dailyWeatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
         LaunchedEffect(key1 = weatherViewModel.locationPreferenceManager.selectedIndex) {
             weatherViewModel.loadWeatherInfo()
+            dailyWeatherViewModel.loadWeatherInfo()
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
@@ -56,6 +59,7 @@ object TodayTab : NavigationTab {
                         )
                     )
                 }
+
                 weatherViewModel.state.error != null -> {
                     AlertDialog(
                         onDismissRequest = {},
@@ -74,6 +78,7 @@ object TodayTab : NavigationTab {
                         },
                     )
                 }
+
                 else -> {
                     Column(
                         modifier = Modifier
@@ -81,15 +86,24 @@ object TodayTab : NavigationTab {
                             .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        WeatherToday(state = weatherViewModel.state)
-                        WeatherCard(
-                            hour = weatherViewModel.state.selected?.let {
-                                weatherViewModel.state.hourlyWeatherInfo?.weatherData?.get(it)
-                            } ?: weatherViewModel.state.hourlyWeatherInfo?.currentWeatherData,
-                        )
-                        WeatherForecast(
-                            state = weatherViewModel.state
-                        ) { weatherViewModel.setSelected(it) }
+                        dailyWeatherViewModel.state.dailyWeatherData?.get(0)
+                            ?.let { dailyWeatherData ->
+                                WeatherToday(data = dailyWeatherData)
+                                (weatherViewModel.state.selected?.let {
+                                    weatherViewModel.state.hourlyWeatherInfo?.weatherData?.get(it)
+                                } ?: weatherViewModel.state.hourlyWeatherInfo?.currentWeatherData)
+                                    ?.let {
+                                        WeatherCard(
+                                            hour = it,
+                                            dailyData = dailyWeatherData
+                                        )
+                                    }
+
+                                WeatherForecast(
+                                    state = weatherViewModel.state,
+                                    dailyData = dailyWeatherData
+                                ) { weatherViewModel.setSelected(it) }
+                            }
                     }
                 }
             }
@@ -98,9 +112,14 @@ object TodayTab : NavigationTab {
 
     @Composable
     override fun Actions() {
-        val viewModel: HourlyWeatherScreenModel = getScreenModel()
+        val weatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
+        val dailyWeatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
-        IconButton(onClick = { viewModel.loadWeatherInfo(cache = false) }) {
+
+        IconButton(onClick = {
+            weatherViewModel.loadWeatherInfo(cache = false)
+            dailyWeatherViewModel.loadWeatherInfo(cache = false)
+        }) {
             Icon(
                 imageVector = Icons.Filled.Refresh,
                 contentDescription = stringResource(R.string.action_reload)

@@ -27,7 +27,6 @@ import com.henryhiles.qweather.domain.util.NavigationTab
 import com.henryhiles.qweather.presentation.components.weather.WeatherDay
 import com.henryhiles.qweather.presentation.components.weather.WeatherToday
 import com.henryhiles.qweather.presentation.screenmodel.DailyWeatherScreenModel
-import com.henryhiles.qweather.presentation.screenmodel.HourlyWeatherScreenModel
 
 object WeekTab : NavigationTab {
     override val options: TabOptions
@@ -47,12 +46,10 @@ object WeekTab : NavigationTab {
 
     @Composable
     override fun Content() {
-        val hourlyWeatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
         val dailyWeatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
         LaunchedEffect(key1 = dailyWeatherViewModel.locationPreferenceManager.selectedIndex) {
             dailyWeatherViewModel.loadWeatherInfo()
-            hourlyWeatherViewModel.loadWeatherInfo()
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
@@ -83,7 +80,7 @@ object WeekTab : NavigationTab {
                 else -> {
                     LazyColumn(contentPadding = PaddingValues(16.dp)) {
                         dailyWeatherViewModel.state.dailyWeatherData?.let { data ->
-                            item { WeatherToday(state = hourlyWeatherViewModel.state) }
+                            item { WeatherToday(data = data[0]) }
                             items(data) {
                                 Spacer(modifier = Modifier.height(16.dp))
                                 WeatherDay(dailyWeatherData = it)
@@ -97,11 +94,9 @@ object WeekTab : NavigationTab {
 
     @Composable
     override fun Actions() {
-        val hourlyWeatherViewModel = getScreenModel<HourlyWeatherScreenModel>()
         val dailyWeatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
         IconButton(onClick = {
-            hourlyWeatherViewModel.loadWeatherInfo(cache = false)
             dailyWeatherViewModel.loadWeatherInfo(cache = false)
         }) {
             Icon(

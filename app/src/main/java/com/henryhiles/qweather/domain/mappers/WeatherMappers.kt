@@ -35,7 +35,9 @@ fun DailyWeatherDataDto.toDailyWeatherData(): List<DailyWeatherData> {
             temperatureMax = temperatureMax[index].roundToInt(),
             temperatureMin = temperatureMin[index].roundToInt(),
             precipitationProbabilityMax = precipitationProbabilityMax.getOrNull(index),
-            windSpeedMax = windSpeedMax[index].roundToInt()
+            windSpeedMax = windSpeedMax[index].roundToInt(),
+            sunrise = LocalDateTime.parse(sunrise[index]),
+            sunset = LocalDateTime.parse(sunset[index]),
         )
     }
 }
@@ -49,8 +51,5 @@ fun WeatherDto.toHourlyWeatherInfo(): HourlyWeatherInfo {
     return HourlyWeatherInfo(
         weatherData = weatherDataMap,
         currentWeatherData = currentWeatherData,
-        highTemperature = weatherDataMap.maxBy { it.temperature }.temperature,
-        lowTemperature = weatherDataMap.minBy { it.temperature }.temperature,
-        precipitationProbability = weatherDataMap.maxBy { it.precipitationProbability ?: 0}.precipitationProbability
     )
 }
