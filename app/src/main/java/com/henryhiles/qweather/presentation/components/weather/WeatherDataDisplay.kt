@@ -16,7 +16,7 @@ import com.henryhiles.qweather.R
 
 @Composable
 fun WeatherDataDisplay(
-    value: Int?,
+    value: Any?,
     unit: String,
     icon: ImageVector,
     description: String,

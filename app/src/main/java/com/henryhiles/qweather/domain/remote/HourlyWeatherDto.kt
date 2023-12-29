@@ -17,3 +17,15 @@ data class HourlyWeatherDataDto(
     @SerialName("windspeed_10m")
     val windSpeed: List<Float>,
 )
+
+@Serializable
+data class HourlyWeatherUnitsDto(
+    @SerialName("temperature_2m")
+    val temperature: String,
+    @SerialName("apparent_temperature")
+    val apparentTemperature: String,
+    @SerialName("precipitation_probability")
+    val precipitationProbability: String,
+    @SerialName("windspeed_10m")
+    val windSpeed: String,
+)

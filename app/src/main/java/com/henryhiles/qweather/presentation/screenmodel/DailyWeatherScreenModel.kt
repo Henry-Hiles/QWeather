@@ -19,7 +19,8 @@ data class DailyWeatherState(
 
 class DailyWeatherScreenModel(
     private val repository: WeatherRepository,
-    val locationPreferenceManager: LocationPreferenceManager
+    private val unitsPreferenceManager: UnitPreferenceManager,
+    val locationPreferenceManager: LocationPreferenceManager,
 ) : ScreenModel {
     var state by mutableStateOf(DailyWeatherState())
         private set
@@ -31,7 +32,8 @@ class DailyWeatherScreenModel(
             state = when (val result = repository.getDailyWeatherData(
                 lat = location.latitude,
                 long = location.longitude,
-                cache = cache
+                cache = cache,
+                units = unitsPreferenceManager,
             )) {
                 is Resource.Success -> {
                     state.copy(

@@ -1,28 +1,48 @@
 package com.henryhiles.qweather.domain.repository
 
+import androidx.compose.ui.text.toLowerCase
 import com.henryhiles.qweather.domain.mappers.toDailyWeatherData
 import com.henryhiles.qweather.domain.mappers.toHourlyWeatherInfo
 import com.henryhiles.qweather.domain.remote.WeatherApi
+import com.henryhiles.qweather.domain.remote.WeatherDto
 import com.henryhiles.qweather.domain.util.Resource
 import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import com.henryhiles.qweather.domain.weather.HourlyWeatherInfo
+import com.henryhiles.qweather.presentation.screenmodel.UnitPreferenceManager
 
 class WeatherRepository(private val api: WeatherApi) {
-    suspend fun getHourlyWeatherData(
+    private suspend fun getWeatherData(
         lat: Float,
         long: Float,
+        units: UnitPreferenceManager,
+        cache: Boolean = true,
+    ): WeatherDto {
+        return if (cache) api.getWeatherData(
+            lat,
+            long,
+            units.tempUnit.name.lowercase(),
+            units.windUnit.name.lowercase(),
+            units.precipitationUnit.name.lowercase(),
+        ) else api.getWeatherDataWithoutCache(
+            lat,
+            long,
+            units.tempUnit.name,
+            units.windUnit.name,
+            units.precipitationUnit.name,
+        )
+    }
+
+    suspend fun getDailyWeatherData(
+        lat: Float,
+        long: Float,
+        units: UnitPreferenceManager,
         cache: Boolean = true
-    ): Resource<HourlyWeatherInfo> {
+    ): Resource<List<DailyWeatherData>> {
         return try {
             Resource.Success(
-                data = (
-                        if (cache) api.getWeatherData(
-                            lat = lat,
-                            long = long
-                        ) else api.getWeatherDataWithoutCache(
-                            lat = lat,
-                            long = long
-                        )).toHourlyWeatherInfo()
+                with(getWeatherData(lat, long, units, cache)) {
+                    dailyWeatherData.toDailyWeatherData(dailyUnits)
+                }
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -30,20 +50,15 @@ class WeatherRepository(private val api: WeatherApi) {
         }
     }
 
-    suspend fun getDailyWeatherData(
+    suspend fun getHourlyWeatherData(
         lat: Float,
         long: Float,
+        units: UnitPreferenceManager,
         cache: Boolean = true
-    ): Resource<List<DailyWeatherData>> {
+    ): Resource<HourlyWeatherInfo> {
         return try {
             Resource.Success(
-                (if (cache) api.getWeatherData(
-                    lat = lat,
-                    long = long
-                ) else api.getWeatherDataWithoutCache(
-                    lat = lat,
-                    long = long
-                )).dailyWeatherData.toDailyWeatherData()
+                getWeatherData(lat, long, units, cache).toHourlyWeatherInfo()
             )
         } catch (e: Exception) {
             e.printStackTrace()

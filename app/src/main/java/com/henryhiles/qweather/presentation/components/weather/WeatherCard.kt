@@ -15,15 +15,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.util.getIcon
 import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import com.henryhiles.qweather.domain.weather.HourlyWeatherData
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun WeatherCard(hour: HourlyWeatherData, dailyData: DailyWeatherData, modifier: Modifier = Modifier) {
+fun WeatherCard(
+    hour: HourlyWeatherData,
+    dailyData: DailyWeatherData,
+    modifier: Modifier = Modifier
+) {
     val formattedTime = remember(hour) {
         hour.time.format(DateTimeFormatter.ofPattern("HH:mm"))
     }
@@ -48,14 +55,23 @@ fun WeatherCard(hour: HourlyWeatherData, dailyData: DailyWeatherData, modifier: 
             Spacer(modifier = Modifier.height(16.dp))
             Image(
                 painter = painterResource(id = getIcon(hour, dailyData)),
-                contentDescription = "Image of ${hour.weatherType.weatherDesc}",
+                contentDescription = hour.weatherType.weatherDesc,
                 modifier = Modifier.height(140.dp),
                 contentScale = ContentScale.FillHeight
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "${hour.temperature}°C", fontSize = 50.sp)
+            Text(text = "${hour.temperature}${hour.units.temperature}", fontSize = 50.sp)
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "${hour.weatherType.weatherDesc} - Feels like ${hour.apparentTemperature}°C", fontSize = 20.sp)
+            Text(
+                text = stringResource(
+                    id = R.string.weather_description,
+                    hour.weatherType.weatherDesc,
+                    hour.apparentTemperature,
+                    hour.units.apparentTemperature
+                ),
+                fontSize = 20.sp,
+                textAlign = TextAlign.Center,
+            )
             Spacer(modifier = Modifier.height(32.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -63,15 +79,15 @@ fun WeatherCard(hour: HourlyWeatherData, dailyData: DailyWeatherData, modifier: 
             ) {
                 WeatherDataDisplay(
                     value = hour.precipitationProbability,
-                    unit = "%",
+                    unit = hour.units.precipitationProbability,
                     icon = Icons.Outlined.WaterDrop,
-                    description = "Chance of precipitation"
+                    description = stringResource(id = R.string.precipitation_probability)
                 )
                 WeatherDataDisplay(
                     value = hour.windSpeed,
-                    unit = "km/h",
+                    unit = hour.units.windSpeed,
                     icon = Icons.Outlined.WindPower,
-                    description = "Wind Speed",
+                    description = stringResource(id = R.string.wind_speed),
                 )
             }
         }

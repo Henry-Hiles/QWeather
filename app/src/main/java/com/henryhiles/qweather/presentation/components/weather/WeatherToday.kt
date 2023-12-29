@@ -46,19 +46,19 @@ fun WeatherToday(data: DailyWeatherData) {
             ) {
                 WeatherDataDisplay(
                     value = data.temperatureMax,
-                    unit = "°C",
+                    unit = data.units.temperatureMax,
                     icon = Icons.Default.ArrowUpward,
-                    description = stringResource(R.string.weather_high, data.temperatureMax)
+                    description = stringResource(R.string.weather_high, data.temperatureMax, data.units.temperatureMax)
                 )
                 WeatherDataDisplay(
                     value = data.temperatureMin,
-                    unit = "°C",
+                    unit = data.units.temperatureMin,
                     icon = Icons.Default.ArrowDownward,
-                    description = stringResource(id = R.string.weather_low, data.temperatureMin)
+                    description = stringResource(id = R.string.weather_low, data.temperatureMin, data.units.temperatureMin)
                 )
                 WeatherDataDisplay(
                     value = data.precipitationProbabilityMax,
-                    unit = "%",
+                    unit = data.units.precipitationProbabilityMax,
                     icon = Icons.Outlined.WaterDrop,
                     description = data.precipitationProbabilityMax?.let {
                         stringResource(

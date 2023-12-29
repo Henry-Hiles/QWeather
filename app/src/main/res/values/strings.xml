@@ -23,6 +23,8 @@
     <string name="settings_appearance_description">Theme, dynamic colors</string>
     <string name="settings_location">Location</string>
     <string name="settings_location_description">Location to fetch data from</string>
+    <string name="settings_units">Units</string>
+    <string name="settings_units_description">Units to fetch data in, e.g. imperial/metric</string>
 
     <string name="location">Location</string>
     <string name="locations">Locations</string>
@@ -34,9 +36,33 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
 
-    <string name="weather_high">High: %1$d°C</string>
-    <string name="weather_low">Low: %1$d°C</string>
+
+    <string name="unit_temp">Temperature Unit</string>
+    <string name="celsius">Celsius (C°)</string>
+    <string name="fahrenheit">Fahrenheit (F°)</string>
+    <string name="unit_temp_desc">Celsius, Fahrenheit</string>
+
+    <string name="unit_wind">Wind Speed Unit</string>
+    <string name="kmh">Kilometers per Hour (km/h)</string>
+    <string name="ms">Meters per second (m/s)</string>
+    <string name="mph">Miles per hour (mph)</string>
+    <string name="kn">Knots (kn)</string>
+    <string name="unit_wind_desc">Km/h, m/s, Mph, Knots</string>
+
+    <string name="unit_precipitation">Precipitation Unit</string>
+    <string name="mm">Millimeters (mm)</string>
+    <string name="inch">Inches (in)</string>
+    <string name="unit_precipitation_desc">Millimeters, Inches</string>
+
+    <string name="weather_high">High: %1$d%2$s</string>
+    <string name="weather_low">Low: %1$d%2$s</string>
+    <string name="feels_like">Feels like %1$d%2$s</string>
     <string name="weather_precipitation">Precipitation: %1$d&#65130;</string>
+    <string name="weather_description">%1$s - Feels like %2$d%3$s</string>
+
+    <string name="precipitation_probability">Precipitation Probability</string>
+    <string name="precipitation_amount">Precipitation Amount</string>
+    <string name="wind_speed">Wind Speed</string>
 
     <string name="today_in">Today in %1$s</string>
 

@@ -3,6 +3,7 @@ package com.henryhiles.qweather.presentation.tabs
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.AcUnit
 import androidx.compose.material.icons.outlined.GpsFixed
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Palette
@@ -20,6 +21,7 @@ import com.henryhiles.qweather.presentation.components.settings.SettingsCategory
 import com.henryhiles.qweather.presentation.screen.AboutScreen
 import com.henryhiles.qweather.presentation.screen.AppearanceSettingsScreen
 import com.henryhiles.qweather.presentation.screen.LocationPickerScreen
+import com.henryhiles.qweather.presentation.screen.UnitsScreen
 
 object SettingsTab : NavigationTab {
     override val options: TabOptions
@@ -51,6 +53,12 @@ object SettingsTab : NavigationTab {
                 text = stringResource(R.string.settings_location),
                 subtext = stringResource(R.string.settings_location_description),
                 destination = ::LocationPickerScreen
+            )
+            SettingsCategory(
+                icon = Icons.Outlined.AcUnit,
+                text = stringResource(R.string.settings_units),
+                subtext = stringResource(R.string.settings_units_description),
+                destination = ::UnitsScreen
             )
         }
     }

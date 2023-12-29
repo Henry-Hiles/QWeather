@@ -44,10 +44,10 @@ fun WeatherHour(
                     painter = painterResource(
                         id = getIcon(it, dailyData)
                     ),
-                    contentDescription = "Image of ${it.weatherType.weatherDesc}",
+                    contentDescription = it.weatherType.weatherDesc,
                     modifier = Modifier.width(40.dp)
                 )
-                Text(text = "${it.temperature}°C")
+                Text(text = "${it.temperature}${it.units.temperature}")
             }
         }
     }

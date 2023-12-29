@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 @Composable
 inline fun <reified E : Enum<E>> SettingsItemChoice(
     label: String,
+    secondaryLabel: String? = null,
     title: String = label,
     disabled: Boolean = false,
     pref: E,
@@ -23,6 +24,7 @@ inline fun <reified E : Enum<E>> SettingsItemChoice(
     SettingItem(
         modifier = Modifier.clickable { opened = true },
         text = { Text(text = label) },
+        secondaryText = { if (secondaryLabel != null) Text(text = secondaryLabel) }
     ) {
         SettingsChoiceDialog(
             visible = opened,

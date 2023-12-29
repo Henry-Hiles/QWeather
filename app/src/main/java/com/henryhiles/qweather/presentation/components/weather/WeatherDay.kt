@@ -16,8 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.henryhiles.qweather.R
 import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import java.time.format.DateTimeFormatter
 
@@ -40,7 +42,7 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
         ) {
             Image(
                 painter = painterResource(id = dailyWeatherData.weatherType.iconRes),
-                contentDescription = "Image of ${dailyWeatherData.weatherType.weatherDesc}",
+                contentDescription = dailyWeatherData.weatherType.weatherDesc,
                 modifier = Modifier.width(48.dp)
             )
 
@@ -50,12 +52,18 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
                     text = formattedDate,
                     fontWeight = FontWeight.Bold,
                 )
-                Text(text = "Feels like ${dailyWeatherData.apparentTemperatureMax}°C")
+                Text(
+                    text = stringResource(
+                        id = R.string.feels_like,
+                        dailyWeatherData.apparentTemperatureMax,
+                        dailyWeatherData.units.apparentTemperatureMax
+                    )
+                )
             }
 
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "${dailyWeatherData.temperatureMax}°C",
+                text = "${dailyWeatherData.temperatureMax}${dailyWeatherData.units.temperatureMax}",
                 style = MaterialTheme.typography.titleLarge,
             )
         }
@@ -67,23 +75,21 @@ fun WeatherDay(dailyWeatherData: DailyWeatherData) {
         ) {
             WeatherDataDisplay(
                 value = dailyWeatherData.precipitationProbabilityMax,
-                unit = "%",
+                unit = dailyWeatherData.units.precipitationProbabilityMax,
                 icon = Icons.Outlined.WaterDrop,
-                description = "Chance of rain"
+                description = stringResource(id = R.string.precipitation_probability)
             )
-            Spacer(modifier = Modifier.width(16.dp))
             WeatherDataDisplay(
-                value = dailyWeatherData.windSpeedMax,
-                unit = "mm",
+                value = dailyWeatherData.precipitationSum,
+                unit = dailyWeatherData.units.precipitationSum,
                 icon = Icons.Outlined.Water,
-                description = "Precipitation Amount"
+                description = stringResource(id = R.string.precipitation_amount)
             )
-            Spacer(modifier = Modifier.width(16.dp))
             WeatherDataDisplay(
                 value = dailyWeatherData.windSpeedMax,
-                unit = "km/h",
+                unit = dailyWeatherData.units.windSpeedMax,
                 icon = Icons.Outlined.WindPower,
-                description = "Wind Speed"
+                description = stringResource(id = R.string.wind_speed)
             )
         }
     }

@@ -19,6 +19,7 @@ data class HourlyWeatherState(
 
 class HourlyWeatherScreenModel(
     private val repository: WeatherRepository,
+    private val unitsPreferenceManager: UnitPreferenceManager,
     val locationPreferenceManager: LocationPreferenceManager,
 ) : ScreenModel {
     var state by mutableStateOf(HourlyWeatherState())
@@ -32,6 +33,7 @@ class HourlyWeatherScreenModel(
                 repository.getHourlyWeatherData(
                     lat = location.latitude,
                     long = location.longitude,
+                    units = unitsPreferenceManager,
                     cache = cache
                 )) {
                 is Resource.Success -> {

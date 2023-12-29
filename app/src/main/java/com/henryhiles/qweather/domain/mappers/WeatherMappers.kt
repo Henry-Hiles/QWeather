@@ -1,7 +1,9 @@
 package com.henryhiles.qweather.domain.mappers
 
 import com.henryhiles.qweather.domain.remote.DailyWeatherDataDto
+import com.henryhiles.qweather.domain.remote.DailyWeatherUnitsDto
 import com.henryhiles.qweather.domain.remote.HourlyWeatherDataDto
+import com.henryhiles.qweather.domain.remote.HourlyWeatherUnitsDto
 import com.henryhiles.qweather.domain.remote.WeatherDto
 import com.henryhiles.qweather.domain.weather.DailyWeatherData
 import com.henryhiles.qweather.domain.weather.HourlyWeatherData
@@ -12,7 +14,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
-fun HourlyWeatherDataDto.toHourlyWeatherData(): List<HourlyWeatherData> {
+fun HourlyWeatherDataDto.toHourlyWeatherData(units: HourlyWeatherUnitsDto): List<HourlyWeatherData> {
     return time.subList(0, 24).mapIndexed { index, time ->
         HourlyWeatherData(
             time = LocalDateTime.parse(time, DateTimeFormatter.ISO_DATE_TIME),
@@ -21,11 +23,12 @@ fun HourlyWeatherDataDto.toHourlyWeatherData(): List<HourlyWeatherData> {
             windSpeed = windSpeed[index].roundToInt(),
             precipitationProbability = precipitationProbability.getOrNull(index),
             weatherType = WeatherType.fromWMO(weatherCode[index]),
+            units = units,
         )
     }
 }
 
-fun DailyWeatherDataDto.toDailyWeatherData(): List<DailyWeatherData> {
+fun DailyWeatherDataDto.toDailyWeatherData(units: DailyWeatherUnitsDto): List<DailyWeatherData> {
     return date.mapIndexed { index, date ->
         DailyWeatherData(
             date = LocalDate.parse(date, DateTimeFormatter.ISO_DATE),
@@ -38,12 +41,17 @@ fun DailyWeatherDataDto.toDailyWeatherData(): List<DailyWeatherData> {
             windSpeedMax = windSpeedMax[index].roundToInt(),
             sunrise = LocalDateTime.parse(sunrise[index]),
             sunset = LocalDateTime.parse(sunset[index]),
+            precipitationSum = precipitationSum[index],
+            units = units.copy(
+                precipitationSum = units.precipitationSum.replace("inch", "\""),
+                windSpeedMax = units.windSpeedMax.replace("mp/h", "mph"),
+            )
         )
     }
 }
 
 fun WeatherDto.toHourlyWeatherInfo(): HourlyWeatherInfo {
-    val weatherDataMap = hourlyWeatherData.toHourlyWeatherData()
+    val weatherDataMap = hourlyWeatherData.toHourlyWeatherData(units = hourlyUnits)
     val now = LocalDateTime.now()
     val currentWeatherData = weatherDataMap.find {
         it.time.hour == now.hour

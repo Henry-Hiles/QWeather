@@ -26,3 +26,20 @@ data class DailyWeatherDataDto(
     @SerialName("apparent_temperature_min")
     val apparentTemperatureMin: List<Float>
 )
+@Serializable
+data class DailyWeatherUnitsDto(
+    @SerialName("precipitation_probability_max")
+    val precipitationProbabilityMax: String,
+    @SerialName("precipitation_sum")
+    val precipitationSum: String,
+    @SerialName("windspeed_10m_max")
+    val windSpeedMax: String,
+    @SerialName("temperature_2m_max")
+    val temperatureMax: String,
+    @SerialName("temperature_2m_min")
+    val temperatureMin: String,
+    @SerialName("apparent_temperature_max")
+    val apparentTemperatureMax: String,
+    @SerialName("apparent_temperature_min")
+    val apparentTemperatureMin: String
+)

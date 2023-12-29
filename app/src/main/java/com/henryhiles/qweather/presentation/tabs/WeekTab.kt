@@ -46,15 +46,15 @@ object WeekTab : NavigationTab {
 
     @Composable
     override fun Content() {
-        val dailyWeatherViewModel = getScreenModel<DailyWeatherScreenModel>()
+        val weatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
-        LaunchedEffect(key1 = dailyWeatherViewModel.locationPreferenceManager.selectedIndex) {
-            dailyWeatherViewModel.loadWeatherInfo()
+        LaunchedEffect(key1 = weatherViewModel.locationPreferenceManager.selectedIndex) {
+            weatherViewModel.loadWeatherInfo()
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
             when {
-                dailyWeatherViewModel.state.isLoading -> {
+                weatherViewModel.state.isLoading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(
                             Alignment.Center
@@ -62,15 +62,19 @@ object WeekTab : NavigationTab {
                     )
                 }
 
-                dailyWeatherViewModel.state.error != null -> {
+                weatherViewModel.state.error != null -> {
                     AlertDialog(
                         onDismissRequest = {},
-                        confirmButton = {},
-                        title = { Text(text = stringResource(R.string.error)) },
+                        confirmButton = {
+                            TextButton(onClick = { weatherViewModel.loadWeatherInfo() }) {
+                                Text(text = stringResource(id = R.string.action_try_again))
+                            }
+                        },
+                        title = { Text(text = stringResource(id = R.string.error)) },
                         text = {
                             SelectionContainer {
                                 Text(
-                                    text = dailyWeatherViewModel.state.error!!,
+                                    text = weatherViewModel.state.error!!,
                                 )
                             }
                         },
@@ -79,7 +83,7 @@ object WeekTab : NavigationTab {
 
                 else -> {
                     LazyColumn(contentPadding = PaddingValues(16.dp)) {
-                        dailyWeatherViewModel.state.dailyWeatherData?.let { data ->
+                        weatherViewModel.state.dailyWeatherData?.let { data ->
                             item { WeatherToday(data = data[0]) }
                             items(data) {
                                 Spacer(modifier = Modifier.height(16.dp))
@@ -94,10 +98,10 @@ object WeekTab : NavigationTab {
 
     @Composable
     override fun Actions() {
-        val dailyWeatherViewModel = getScreenModel<DailyWeatherScreenModel>()
+        val weatherViewModel = getScreenModel<DailyWeatherScreenModel>()
 
         IconButton(onClick = {
-            dailyWeatherViewModel.loadWeatherInfo(cache = false)
+            weatherViewModel.loadWeatherInfo(cache = false)
         }) {
             Icon(
                 imageVector = Icons.Filled.Refresh,

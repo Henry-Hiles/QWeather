@@ -1,5 +1,7 @@
 package com.henryhiles.qweather.domain.remote
 
+import com.henryhiles.qweather.presentation.screenmodel.PrecipitationUnit
+import com.henryhiles.qweather.presentation.screenmodel.TempUnit
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
@@ -17,6 +19,9 @@ interface WeatherApi {
     suspend fun getWeatherData(
         @Query("latitude") lat: Float,
         @Query("longitude") long: Float,
+        @Query("temperature_unit") tempUnit:  String,
+        @Query("wind_speed_unit") windUnit: String,
+        @Query("precipitation_unit") precipitationUnit: String,
     ): WeatherDto
 
     @Headers("Cache-Control: no-cache")
@@ -24,5 +29,8 @@ interface WeatherApi {
     suspend fun getWeatherDataWithoutCache(
         @Query("latitude") lat: Float,
         @Query("longitude") long: Float,
+        @Query("temperature_unit") tempUnit:  String,
+        @Query("wind_speed_unit") windUnit: String,
+        @Query("precipitation_unit") precipitationUnit: String,
     ): WeatherDto
 }
