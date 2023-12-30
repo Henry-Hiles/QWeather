@@ -23,7 +23,9 @@ fun HourlyWeatherDataDto.toHourlyWeatherData(units: HourlyWeatherUnitsDto): List
             windSpeed = windSpeed[index].roundToInt(),
             precipitationProbability = precipitationProbability.getOrNull(index),
             weatherType = WeatherType.fromWMO(weatherCode[index]),
-            units = units,
+            units = units.copy(
+                windSpeed = units.windSpeed.replace("mp/h", "mph"),
+            )
         )
     }
 }
